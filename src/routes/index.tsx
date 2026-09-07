@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/Shell";
 import {
+  ALMOCO_PADRAO,
+  PAUSAS_PADRAO,
   calcular,
   fmtMMSS,
   fmtNum,
@@ -40,6 +42,8 @@ function NovaAnalise() {
   const [demanda, setDemanda] = useState("1200");
   const [pessoas, setPessoas] = useState("6");
   const [horas, setHoras] = useState("8");
+  const [pausas, setPausas] = useState(String(PAUSAS_PADRAO));
+  const [almoco, setAlmoco] = useState(String(ALMOCO_PADRAO));
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
 
@@ -55,12 +59,18 @@ function NovaAnalise() {
     [atividades, linhaId],
   );
 
+  const num = (v: string) => Number(v.replace(",", ".")) || 0;
+  const tempoEfetivo = Math.max(0, num(horas) * 60 - num(pausas) - num(almoco));
+
   function onCalcular() {
     const d = Number(demanda);
     const p = Number(pessoas);
-    const h = Number(horas.replace(",", "."));
-    if (!d || d <= 0) return setErro("Informe a demanda do período.");
-    if (!h || h <= 0) return setErro("Informe o tempo disponível em horas.");
+    const h = num(horas);
+    const pa = num(pausas);
+    const al = num(almoco);
+    if (!d || d <= 0) return setErro("Informe a demanda de separações do período.");
+    if (!h || h <= 0) return setErro("Informe a jornada disponível em horas.");
+    if (h * 60 - pa - al <= 0) return setErro("Pausas e almoço maiores que a jornada.");
     if (!atividadesLinha.length) return setErro("Esta linha ainda não tem atividades no banco de tempos.");
     setErro("");
 
@@ -68,6 +78,8 @@ function NovaAnalise() {
       demanda: d,
       pessoasDisponiveis: p,
       horasDisponiveis: h,
+      pausasMin: pa,
+      almocoMin: al,
       atividades: atividadesLinha,
     });
     const linha = linhas.find((l) => l.id === linhaId);
@@ -79,6 +91,9 @@ function NovaAnalise() {
       demanda: d,
       pessoasDisponiveis: p,
       horasDisponiveis: h,
+      pausasMin: pa,
+      almocoMin: al,
+      tempoDisponivelMin: calc.tempoDisponivelMin,
       taktMin: calc.taktMin,
       tempoTotalMin: calc.tempoTotalMin,
       operadoresTeoricos: calc.operadoresTeoricos,
@@ -89,6 +104,7 @@ function NovaAnalise() {
     setResultado(analise);
     setHistorico([analise, ...getHistorico()].slice(0, 200));
   }
+
 
   const falta = resultado ? resultado.diferenca < 0 : false;
 
@@ -126,11 +142,27 @@ function NovaAnalise() {
               </select>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="unid." />
+              <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="sep." />
               <Campo label="Pessoas disp." value={pessoas} onChange={setPessoas} />
-              <Campo label="Tempo disp." value={horas} onChange={setHoras} sufixo="h" />
+              <Campo label="Jornada" value={horas} onChange={setHoras} sufixo="h" />
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <Campo label="Pausas" value={pausas} onChange={setPausas} sufixo="min" />
+              <Campo label="Almoço" value={almoco} onChange={setAlmoco} sufixo="min" />
+              <div>
+                <label className="font-mono text-[10px] tracking-[0.2em] text-dim uppercase">
+                  Tempo efetivo
+                </label>
+                <div className="ring-line mt-1.5 flex items-center justify-between rounded-lg bg-cyan/10 px-3 py-2.5 ring-1 ring-cyan/30">
+                  <span className="text-sm font-semibold tabular-nums text-cyan">
+                    {fmtNum(tempoEfetivo, 0)}
+                  </span>
+                  <span className="font-mono text-xs text-dim">min</span>
+                </div>
+              </div>
             </div>
           </div>
+
 
           {erro && <p className="mt-3 font-mono text-xs text-signal">{erro}</p>}
 
@@ -224,7 +256,8 @@ function NovaAnalise() {
               (c) Como o cálculo é feito
             </div>
             <ul className="space-y-1.5 font-mono text-[11px] text-dim">
-              <li>Takt Time = tempo disponível ÷ demanda</li>
+              <li>Tempo efetivo = (jornada × 60) − pausas − almoço</li>
+              <li>Takt Time = tempo efetivo ÷ separações do dia</li>
               <li>Tempo total = soma das médias das atividades</li>
               <li>Operadores teóricos = tempo total ÷ takt</li>
               <li>Pessoas necessárias = arredondado para cima</li>

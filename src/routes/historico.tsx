@@ -67,7 +67,7 @@ function Historico() {
                     "Linha",
                     "Demanda",
                     "Disp.",
-                    "Tempo",
+                    "T. efetivo",
                     "Takt",
                     "T. total",
                     "Teóricos",
@@ -96,7 +96,9 @@ function Historico() {
                     <td className="px-2 py-2 font-sans text-ink">{a.linhaNome}</td>
                     <td className="px-2 py-2">{a.demanda.toLocaleString("pt-BR")}</td>
                     <td className="px-2 py-2">{a.pessoasDisponiveis}</td>
-                    <td className="px-2 py-2">{fmtNum(a.horasDisponiveis, 1)} h</td>
+                    <td className="px-2 py-2">
+                      {fmtNum(a.tempoDisponivelMin ?? a.horasDisponiveis * 60, 0)} min
+                    </td>
                     <td className="px-2 py-2">{fmtMMSS(a.taktMin * 60)}</td>
                     <td className="px-2 py-2">{fmtMMSS(a.tempoTotalMin * 60)}</td>
                     <td className="px-2 py-2">{fmtNum(a.operadoresTeoricos)}</td>

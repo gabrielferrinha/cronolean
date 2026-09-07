@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { Shell } from "@/components/Shell";
@@ -9,7 +9,6 @@ import {
   mediaSegundos,
   parseTempo,
   setAtividades,
-  setLinhas,
   type Atividade,
   type Linha,
 } from "@/lib/crono";
@@ -34,6 +33,7 @@ export const Route = createFileRoute("/banco")({
 });
 
 function Banco() {
+  const navigate = useNavigate();
   const [linhas, setLinhasS] = useState<Linha[]>([]);
   const [linhaId, setLinhaId] = useState("");
   const [atividades, setAtividadesS] = useState<Atividade[]>([]);

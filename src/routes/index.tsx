@@ -15,6 +15,8 @@ import {
   type Atividade,
   type Linha,
 } from "@/lib/crono";
+import { TURNOS, salvarAnaliseNaNuvem, turnoSugerido } from "@/lib/analisesCloud";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +41,7 @@ function NovaAnalise() {
   const [linhas, setLinhasState] = useState<Linha[]>([]);
   const [atividades, setAtividadesState] = useState<Atividade[]>([]);
   const [linhaId, setLinhaId] = useState("");
+  const [turno, setTurno] = useState<string>(TURNOS[0]);
   const [demanda, setDemanda] = useState("1200");
   const [pessoas, setPessoas] = useState("6");
   const [horas, setHoras] = useState("8");
@@ -46,12 +49,15 @@ function NovaAnalise() {
   const [almoco, setAlmoco] = useState(String(ALMOCO_PADRAO));
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
+  const [statusSalvo, setStatusSalvo] = useState("");
+
 
   useEffect(() => {
     const ls = getLinhas();
     setLinhasState(ls);
     setLinhaId(ls[0]?.id ?? "");
     setAtividadesState(getAtividades());
+    setTurno(turnoSugerido());
   }, []);
 
   const atividadesLinha = useMemo(
@@ -103,7 +109,12 @@ function NovaAnalise() {
     };
     setResultado(analise);
     setHistorico([analise, ...getHistorico()].slice(0, 200));
+    setStatusSalvo("Salvando no histórico...");
+    salvarAnaliseNaNuvem(analise, turno)
+      .then(() => setStatusSalvo(`Salvo no histórico · ${turno}`))
+      .catch(() => setStatusSalvo("Não foi possível salvar no histórico online."));
   }
+
 
 
   const falta = resultado ? resultado.diferenca < 0 : false;
@@ -141,6 +152,25 @@ function NovaAnalise() {
                 ))}
               </select>
             </div>
+            <div>
+              <label className="font-mono text-[10px] tracking-[0.2em] text-dim uppercase">Turno</label>
+              <div className="mt-1.5 grid grid-cols-3 gap-2">
+                {TURNOS.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setTurno(t)}
+                    className={`rounded-lg px-2 py-2.5 font-mono text-xs tracking-wider uppercase ring-1 transition-colors ${
+                      turno === t
+                        ? "bg-cyan text-abyss ring-cyan"
+                        : "ring-line bg-abyss/40 text-dim hover:text-ink"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="sep." />
               <Campo label="Pessoas disp." value={pessoas} onChange={setPessoas} />
@@ -172,6 +202,8 @@ function NovaAnalise() {
           >
             Calcular
           </button>
+          {statusSalvo && <p className="mt-2 font-mono text-[11px] text-dim">{statusSalvo}</p>}
+
 
           {resultado && (
             <div className="animate-rise mt-6 overflow-hidden rounded-2xl bg-deep ring-1 ring-line">

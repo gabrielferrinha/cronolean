@@ -152,6 +152,25 @@ function NovaAnalise() {
                 ))}
               </select>
             </div>
+            <div>
+              <label className="font-mono text-[10px] tracking-[0.2em] text-dim uppercase">Turno</label>
+              <div className="mt-1.5 grid grid-cols-3 gap-2">
+                {TURNOS.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setTurno(t)}
+                    className={`rounded-lg px-2 py-2.5 font-mono text-xs tracking-wider uppercase ring-1 transition-colors ${
+                      turno === t
+                        ? "bg-cyan text-abyss ring-cyan"
+                        : "ring-line bg-abyss/40 text-dim hover:text-ink"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="sep." />
               <Campo label="Pessoas disp." value={pessoas} onChange={setPessoas} />

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import logoMegaG from "@/assets/megag-logo.png";
 
 const linkBase =
   "rounded-full px-4 py-1.5 font-mono text-xs text-dim transition-colors hover:text-ink";

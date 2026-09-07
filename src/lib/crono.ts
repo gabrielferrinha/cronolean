@@ -91,10 +91,20 @@ export function calcular(params: {
   demanda: number;
   pessoasDisponiveis: number;
   horasDisponiveis: number;
+  pausasMin?: number;
+  almocoMin?: number;
   atividades: Atividade[];
 }) {
-  const { demanda, pessoasDisponiveis, horasDisponiveis, atividades } = params;
-  const tempoDisponivelMin = horasDisponiveis * 60;
+  const {
+    demanda,
+    pessoasDisponiveis,
+    horasDisponiveis,
+    pausasMin = PAUSAS_PADRAO,
+    almocoMin = ALMOCO_PADRAO,
+    atividades,
+  } = params;
+  // Igual à planilha: (horas*60) - pausas - almoço
+  const tempoDisponivelMin = Math.max(0, horasDisponiveis * 60 - pausasMin - almocoMin);
   const taktMin = demanda > 0 ? tempoDisponivelMin / demanda : 0;
   const total = tempoTotalMin(atividades);
   const teoricos = taktMin > 0 ? total / taktMin : 0;
@@ -116,6 +126,7 @@ export function calcular(params: {
     resultado,
   };
 }
+
 
 export function fmtMMSS(segundos: number): string {
   if (!segundos || segundos < 0) return "00:00";

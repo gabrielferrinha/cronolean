@@ -57,6 +57,7 @@ function NovaAnalise() {
     setLinhasState(ls);
     setLinhaId(ls[0]?.id ?? "");
     setAtividadesState(getAtividades());
+    setTurno(turnoSugerido());
   }, []);
 
   const atividadesLinha = useMemo(

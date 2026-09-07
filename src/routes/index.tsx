@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/Shell";
 import {
+  ALMOCO_PADRAO,
+  PAUSAS_PADRAO,
   calcular,
   fmtMMSS,
   fmtNum,

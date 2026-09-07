@@ -123,9 +123,7 @@ export function parseTempo(valor: string): number | null {
   if (!v) return null;
   const partes = v.split(":").map((p) => Number(p.replace(",", ".")));
   if (partes.some((n) => Number.isNaN(n))) return null;
-  if (partes.length === 1) return partes[0];
-  if (partes.length === 2) return partes[0] * 60 + partes[1];
-  return partes[0] * 3600 + partes[1] * 60 + partes[2];
+  return partes.reduce((acc, n) => acc * 60 + n, 0);
 }
 
 export function fmtNum(n: number, casas = 2): string {

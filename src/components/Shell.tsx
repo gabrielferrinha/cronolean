@@ -30,7 +30,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 <span className="text-signal">MAUÁ</span>
               </div>
               <div className="mt-1 font-mono text-[10px] tracking-[0.28em] text-dim uppercase">
-                mega g · miudezas secas
+                MEGA G · NOW
               </div>
             </div>
           </Link>

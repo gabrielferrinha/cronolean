@@ -256,7 +256,8 @@ function NovaAnalise() {
               (c) Como o cálculo é feito
             </div>
             <ul className="space-y-1.5 font-mono text-[11px] text-dim">
-              <li>Takt Time = tempo disponível ÷ demanda</li>
+              <li>Tempo efetivo = (jornada × 60) − pausas − almoço</li>
+              <li>Takt Time = tempo efetivo ÷ separações do dia</li>
               <li>Tempo total = soma das médias das atividades</li>
               <li>Operadores teóricos = tempo total ÷ takt</li>
               <li>Pessoas necessárias = arredondado para cima</li>

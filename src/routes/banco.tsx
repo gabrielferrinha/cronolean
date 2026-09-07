@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { Shell } from "@/components/Shell";
@@ -9,7 +9,6 @@ import {
   mediaSegundos,
   parseTempo,
   setAtividades,
-  setLinhas,
   type Atividade,
   type Linha,
 } from "@/lib/crono";
@@ -34,6 +33,7 @@ export const Route = createFileRoute("/banco")({
 });
 
 function Banco() {
+  const navigate = useNavigate();
   const [linhas, setLinhasS] = useState<Linha[]>([]);
   const [linhaId, setLinhaId] = useState("");
   const [atividades, setAtividadesS] = useState<Atividade[]>([]);
@@ -85,13 +85,7 @@ function Banco() {
   }
 
   function novaLinha() {
-    const nome = window.prompt("Nome da nova linha:");
-    if (!nome) return;
-    const nova = { id: crypto.randomUUID(), nome };
-    const next = [...linhas, nova];
-    setLinhasS(next);
-    setLinhas(next);
-    setLinhaId(nova.id);
+    navigate({ to: "/nova-linha" });
   }
 
   async function importar(file: File) {

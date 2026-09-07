@@ -109,7 +109,7 @@ function NovaLinha() {
 
   return (
     <Shell>
-      <section className="animate-rise rounded-2xl bg-white/[0.05] p-6 ring-1 ring-white/10 backdrop-blur-md">
+      <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-6">
           <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
             Nova linha de separação
@@ -141,7 +141,7 @@ function NovaLinha() {
           {itens.map((it, i) => {
             const media = mediaSegundos(it.ciclos.map((c) => parseTempo(c)));
             return (
-              <div key={i} className="ring-line rounded-xl bg-deep/40 p-4 ring-1">
+              <div key={i} className="ring-line rounded-xl bg-mist/40 p-4 ring-1">
                 <div className="mb-3 flex items-center gap-3">
                   <span className="font-mono text-xs text-cyan">
                     {String(i + 1).padStart(2, "0")}
@@ -186,7 +186,7 @@ function NovaLinha() {
 
         <button
           onClick={adicionarAtividade}
-          className="ring-line mt-4 rounded-lg bg-white/5 px-4 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 transition-colors hover:text-cyan"
+          className="ring-line mt-4 rounded-lg bg-deep px-4 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 transition-colors hover:text-cyan"
         >
           + Adicionar atividade
         </button>
@@ -197,14 +197,14 @@ function NovaLinha() {
           </p>
         )}
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
           <span className="font-mono text-xs text-dim">
             Tempo total da linha: <span className="text-cyan">{fmtMMSS(totalSeg)}</span>
           </span>
           <div className="flex gap-2">
             <button
               onClick={() => navigate({ to: "/banco" })}
-              className="ring-line rounded-lg bg-white/5 px-4 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 hover:text-ink"
+              className="ring-line rounded-lg bg-deep px-4 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 hover:text-ink"
             >
               Cancelar
             </button>

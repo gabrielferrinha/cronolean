@@ -129,7 +129,7 @@ function Banco() {
 
   return (
     <Shell>
-      <section className="animate-rise rounded-2xl bg-white/[0.05] p-6 ring-1 ring-white/10 backdrop-blur-md">
+      <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
@@ -187,7 +187,7 @@ function Banco() {
             </thead>
             <tbody>
               {daLinha.map((a) => (
-                <tr key={a.id} className="border-t border-white/10 bg-deep/40">
+                <tr key={a.id} className="border-t border-line bg-mist/40">
                   <td className="px-2 py-1.5 text-center text-cyan">
                     {String(a.numero).padStart(2, "0")}
                   </td>
@@ -255,7 +255,7 @@ function Botao({ onClick, children }: { onClick: () => void; children: React.Rea
   return (
     <button
       onClick={onClick}
-      className="ring-line rounded-lg bg-white/5 px-3 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 transition-colors hover:text-cyan"
+      className="ring-line rounded-lg bg-deep px-3 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 transition-colors hover:text-cyan"
     >
       {children}
     </button>

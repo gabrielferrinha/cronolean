@@ -35,7 +35,7 @@ function Historico() {
 
   return (
     <Shell>
-      <section className="animate-rise rounded-2xl bg-white/[0.05] p-6 ring-1 ring-white/10 backdrop-blur-md">
+      <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">Histórico</div>
@@ -46,7 +46,7 @@ function Historico() {
           {itens.length > 0 && (
             <button
               onClick={limpar}
-              className="ring-line rounded-lg bg-white/5 px-3 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 hover:text-signal"
+              className="ring-line rounded-lg bg-deep px-3 py-2 font-mono text-[11px] tracking-wider text-dim uppercase ring-1 hover:text-signal"
             >
               Limpar
             </button>
@@ -83,7 +83,7 @@ function Historico() {
               </thead>
               <tbody>
                 {itens.map((a) => (
-                  <tr key={a.id} className="border-t border-white/10 bg-deep/40">
+                  <tr key={a.id} className="border-t border-line bg-mist/40">
                     <td className="px-2 py-2 whitespace-nowrap text-dim">
                       {new Date(a.data).toLocaleString("pt-BR", {
                         day: "2-digit",

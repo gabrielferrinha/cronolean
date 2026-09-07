@@ -111,7 +111,7 @@ function NovaAnalise() {
   return (
     <Shell>
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
-        <section className="animate-rise rounded-2xl bg-white/[0.05] p-6 ring-1 ring-white/10 backdrop-blur-md lg:col-span-7">
+        <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md lg:col-span-7">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2">
             <div>
               <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
@@ -174,8 +174,8 @@ function NovaAnalise() {
           </button>
 
           {resultado && (
-            <div className="animate-rise mt-6 overflow-hidden rounded-2xl bg-abyss/70 ring-1 ring-white/10">
-              <div className="flex items-center justify-between border-b border-white/10 px-5 py-2">
+            <div className="animate-rise mt-6 overflow-hidden rounded-2xl bg-deep ring-1 ring-line">
+              <div className="flex items-center justify-between border-b border-line px-5 py-2">
                 <span className="font-mono text-[10px] tracking-[0.24em] text-dim uppercase">Resultado</span>
                 <span
                   className={`font-mono text-[10px] tracking-[0.18em] uppercase ${falta ? "text-signal" : "text-clear"}`}
@@ -188,7 +188,7 @@ function NovaAnalise() {
                   <div className="font-mono text-[10px] tracking-[0.18em] text-dim uppercase">Disponíveis</div>
                   <div className="mt-1 font-display text-4xl tabular-nums">{resultado.pessoasDisponiveis}</div>
                 </div>
-                <div className="flex flex-col justify-center border-x border-white/10 text-center">
+                <div className="flex flex-col justify-center border-x border-line text-center">
                   <div className="font-mono text-[10px] tracking-[0.18em] text-cyan uppercase">Necessárias</div>
                   <div className="font-display text-6xl leading-none tabular-nums text-cyan">
                     {resultado.operadoresNecessarios}
@@ -201,7 +201,7 @@ function NovaAnalise() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-px border-t border-white/10 bg-white/5 text-center font-mono text-[11px] sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-px border-t border-line bg-deep text-center font-mono text-[11px] sm:grid-cols-4">
                 <Mini titulo="TAKT" valor={fmtMMSS(resultado.taktMin * 60)} />
                 <Mini titulo="T. TOTAL" valor={fmtMMSS(resultado.tempoTotalMin * 60)} />
                 <Mini titulo="OPER. TEÓR." valor={fmtNum(resultado.operadoresTeoricos)} />
@@ -216,18 +216,18 @@ function NovaAnalise() {
         </section>
 
         <div className="flex flex-col gap-5 lg:col-span-5">
-          <section className="animate-rise rounded-2xl bg-white/[0.05] p-5 ring-1 ring-white/10 backdrop-blur-md">
+          <section className="animate-rise rounded-2xl bg-white shadow-sm p-5 ring-1 ring-line backdrop-blur-md">
             <div className="mb-4 font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
               (b) Tempos usados no cálculo
             </div>
             <div className="ring-line overflow-hidden rounded-xl ring-1">
-              <div className="grid grid-cols-[2.4rem_1fr_3rem_3.6rem] gap-px bg-white/10 font-mono text-[10px] tracking-wider text-dim uppercase">
+              <div className="grid grid-cols-[2.4rem_1fr_3rem_3.6rem] gap-px bg-mist/60 font-mono text-[10px] tracking-wider text-dim uppercase">
                 <div className="bg-deep px-2 py-2 text-center">Nº</div>
                 <div className="bg-deep px-2 py-2">Atividade</div>
                 <div className="bg-deep px-2 py-2 text-right">Ciclos</div>
                 <div className="bg-deep px-2 py-2 text-right">Média</div>
               </div>
-              <div className="grid grid-cols-[2.4rem_1fr_3rem_3.6rem] gap-px bg-white/10 font-mono text-xs tabular-nums">
+              <div className="grid grid-cols-[2.4rem_1fr_3rem_3.6rem] gap-px bg-mist/60 font-mono text-xs tabular-nums">
                 {atividadesLinha.map((a) => {
                   const validos = a.ciclos.filter((c) => typeof c === "number").length;
                   const media = a.ciclos.filter((c): c is number => typeof c === "number");
@@ -251,7 +251,7 @@ function NovaAnalise() {
             </div>
           </section>
 
-          <section className="animate-rise rounded-2xl bg-white/[0.05] p-5 ring-1 ring-white/10 backdrop-blur-md">
+          <section className="animate-rise rounded-2xl bg-white shadow-sm p-5 ring-1 ring-line backdrop-blur-md">
             <div className="mb-3 font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
               (c) Como o cálculo é feito
             </div>

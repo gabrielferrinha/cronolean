@@ -15,6 +15,8 @@ import {
   type Atividade,
   type Linha,
 } from "@/lib/crono";
+import { TURNOS, salvarAnaliseNaNuvem, turnoSugerido } from "@/lib/analisesCloud";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -109,7 +109,12 @@ function NovaAnalise() {
     };
     setResultado(analise);
     setHistorico([analise, ...getHistorico()].slice(0, 200));
+    setStatusSalvo("Salvando no histórico...");
+    salvarAnaliseNaNuvem(analise, turno)
+      .then(() => setStatusSalvo(`Salvo no histórico · ${turno}`))
+      .catch(() => setStatusSalvo("Não foi possível salvar no histórico online."));
   }
+
 
 
   const falta = resultado ? resultado.diferenca < 0 : false;

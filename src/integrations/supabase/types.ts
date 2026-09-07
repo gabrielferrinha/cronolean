@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analises: {
+        Row: {
+          almoco_min: number
+          created_at: string
+          demanda: number
+          diferenca: number
+          horas_disponiveis: number
+          id: string
+          linha_nome: string
+          observacao: string | null
+          operadores_necessarios: number
+          operadores_teoricos: number
+          pausas_min: number
+          pessoas_disponiveis: number
+          resultado: string
+          takt_min: number
+          tempo_disponivel_min: number
+          tempo_total_min: number
+          turno: string
+        }
+        Insert: {
+          almoco_min?: number
+          created_at?: string
+          demanda: number
+          diferenca: number
+          horas_disponiveis: number
+          id?: string
+          linha_nome: string
+          observacao?: string | null
+          operadores_necessarios: number
+          operadores_teoricos: number
+          pausas_min?: number
+          pessoas_disponiveis: number
+          resultado: string
+          takt_min: number
+          tempo_disponivel_min: number
+          tempo_total_min: number
+          turno: string
+        }
+        Update: {
+          almoco_min?: number
+          created_at?: string
+          demanda?: number
+          diferenca?: number
+          horas_disponiveis?: number
+          id?: string
+          linha_nome?: string
+          observacao?: string | null
+          operadores_necessarios?: number
+          operadores_teoricos?: number
+          pausas_min?: number
+          pessoas_disponiveis?: number
+          resultado?: string
+          takt_min?: number
+          tempo_disponivel_min?: number
+          tempo_total_min?: number
+          turno?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

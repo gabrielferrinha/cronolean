@@ -40,6 +40,8 @@ function NovaAnalise() {
   const [demanda, setDemanda] = useState("1200");
   const [pessoas, setPessoas] = useState("6");
   const [horas, setHoras] = useState("8");
+  const [pausas, setPausas] = useState(String(PAUSAS_PADRAO));
+  const [almoco, setAlmoco] = useState(String(ALMOCO_PADRAO));
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
 
@@ -55,12 +57,18 @@ function NovaAnalise() {
     [atividades, linhaId],
   );
 
+  const num = (v: string) => Number(v.replace(",", ".")) || 0;
+  const tempoEfetivo = Math.max(0, num(horas) * 60 - num(pausas) - num(almoco));
+
   function onCalcular() {
     const d = Number(demanda);
     const p = Number(pessoas);
-    const h = Number(horas.replace(",", "."));
-    if (!d || d <= 0) return setErro("Informe a demanda do período.");
-    if (!h || h <= 0) return setErro("Informe o tempo disponível em horas.");
+    const h = num(horas);
+    const pa = num(pausas);
+    const al = num(almoco);
+    if (!d || d <= 0) return setErro("Informe a demanda de separações do período.");
+    if (!h || h <= 0) return setErro("Informe a jornada disponível em horas.");
+    if (h * 60 - pa - al <= 0) return setErro("Pausas e almoço maiores que a jornada.");
     if (!atividadesLinha.length) return setErro("Esta linha ainda não tem atividades no banco de tempos.");
     setErro("");
 
@@ -68,6 +76,8 @@ function NovaAnalise() {
       demanda: d,
       pessoasDisponiveis: p,
       horasDisponiveis: h,
+      pausasMin: pa,
+      almocoMin: al,
       atividades: atividadesLinha,
     });
     const linha = linhas.find((l) => l.id === linhaId);
@@ -79,6 +89,9 @@ function NovaAnalise() {
       demanda: d,
       pessoasDisponiveis: p,
       horasDisponiveis: h,
+      pausasMin: pa,
+      almocoMin: al,
+      tempoDisponivelMin: calc.tempoDisponivelMin,
       taktMin: calc.taktMin,
       tempoTotalMin: calc.tempoTotalMin,
       operadoresTeoricos: calc.operadoresTeoricos,
@@ -89,6 +102,7 @@ function NovaAnalise() {
     setResultado(analise);
     setHistorico([analise, ...getHistorico()].slice(0, 200));
   }
+
 
   const falta = resultado ? resultado.diferenca < 0 : false;
 

@@ -17,6 +17,9 @@ export type Analise = {
   demanda: number;
   pessoasDisponiveis: number;
   horasDisponiveis: number;
+  pausasMin: number;
+  almocoMin: number;
+  tempoDisponivelMin: number;
   taktMin: number;
   tempoTotalMin: number;
   operadoresTeoricos: number;
@@ -24,6 +27,10 @@ export type Analise = {
   diferenca: number;
   resultado: string;
 };
+
+/** Padrões da planilha original */
+export const PAUSAS_PADRAO = 20;
+export const ALMOCO_PADRAO = 60;
 
 const KEY_LINHAS = "crono.linhas";
 const KEY_ATIVIDADES = "crono.atividades";

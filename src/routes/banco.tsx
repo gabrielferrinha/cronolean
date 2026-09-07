@@ -85,13 +85,7 @@ function Banco() {
   }
 
   function novaLinha() {
-    const nome = window.prompt("Nome da nova linha:");
-    if (!nome) return;
-    const nova = { id: crypto.randomUUID(), nome };
-    const next = [...linhas, nova];
-    setLinhasS(next);
-    setLinhas(next);
-    setLinhaId(nova.id);
+    navigate({ to: "/nova-linha" });
   }
 
   async function importar(file: File) {

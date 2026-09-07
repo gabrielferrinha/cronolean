@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CronoLab — Cronoanálise e Dimensionamento" },
+      { title: "CronoLeanMaua — Cronoanálise e Dimensionamento" },
       {
         name: "description",
         content: "Cronoanálise e dimensionamento de mão de obra para separação de pedidos.",

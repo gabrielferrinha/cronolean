@@ -16,13 +16,13 @@ import {
 export const Route = createFileRoute("/banco")({
   head: () => ({
     meta: [
-      { title: "Banco de Tempos — CronoLab" },
+      { title: "Banco de Tempos — CronoLeanMaua" },
       {
         name: "description",
         content:
           "Cadastre atividades, ciclos cronometrados e importe a planilha de cronoanálise. As médias são recalculadas automaticamente.",
       },
-      { property: "og:title", content: "Banco de Tempos — CronoLab" },
+      { property: "og:title", content: "Banco de Tempos — CronoLeanMaua" },
       {
         property: "og:description",
         content: "Atividades, ciclos e tempos médios da operação de separação.",

@@ -19,13 +19,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nova Análise — CronoLab | Dimensionamento de Operadores" },
+      { title: "Nova Análise — CronoLeanMaua | Dimensionamento de Operadores" },
       {
         name: "description",
         content:
           "Calcule em segundos quantas pessoas são necessárias para separar a demanda do dia, usando os tempos médios da cronoanálise.",
       },
-      { property: "og:title", content: "CronoLab — Dimensionamento de mão de obra" },
+      { property: "og:title", content: "CronoLeanMaua — Dimensionamento de mão de obra" },
       {
         property: "og:description",
         content: "Cronoanálise e dimensionamento de operadores para separação de pedidos.",

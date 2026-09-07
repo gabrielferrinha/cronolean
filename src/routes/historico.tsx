@@ -6,13 +6,13 @@ import { fmtMMSS, fmtNum, getHistorico, setHistorico, type Analise } from "@/lib
 export const Route = createFileRoute("/historico")({
   head: () => ({
     meta: [
-      { title: "Histórico de Análises — CronoLab" },
+      { title: "Histórico de Análises — CronoLeanMaua" },
       {
         name: "description",
         content:
           "Acompanhe a evolução do dimensionamento de mão de obra: demanda, pessoas disponíveis e pessoas necessárias por dia.",
       },
-      { property: "og:title", content: "Histórico de Análises — CronoLab" },
+      { property: "og:title", content: "Histórico de Análises — CronoLeanMaua" },
       {
         property: "og:description",
         content: "Registro de todas as análises de dimensionamento realizadas.",

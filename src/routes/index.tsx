@@ -142,11 +142,27 @@ function NovaAnalise() {
               </select>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="unid." />
+              <Campo label="Demanda" value={demanda} onChange={setDemanda} sufixo="sep." />
               <Campo label="Pessoas disp." value={pessoas} onChange={setPessoas} />
-              <Campo label="Tempo disp." value={horas} onChange={setHoras} sufixo="h" />
+              <Campo label="Jornada" value={horas} onChange={setHoras} sufixo="h" />
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <Campo label="Pausas" value={pausas} onChange={setPausas} sufixo="min" />
+              <Campo label="Almoço" value={almoco} onChange={setAlmoco} sufixo="min" />
+              <div>
+                <label className="font-mono text-[10px] tracking-[0.2em] text-dim uppercase">
+                  Tempo efetivo
+                </label>
+                <div className="ring-line mt-1.5 flex items-center justify-between rounded-lg bg-cyan/10 px-3 py-2.5 ring-1 ring-cyan/30">
+                  <span className="text-sm font-semibold tabular-nums text-cyan">
+                    {fmtNum(tempoEfetivo, 0)}
+                  </span>
+                  <span className="font-mono text-xs text-dim">min</span>
+                </div>
+              </div>
             </div>
           </div>
+
 
           {erro && <p className="mt-3 font-mono text-xs text-signal">{erro}</p>}
 

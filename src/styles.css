@@ -5,15 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-abyss: hsl(185 55% 5%);
-  --color-deep: hsl(184 48% 11%);
-  --color-mist: hsl(184 40% 28%);
-  --color-ink: hsl(184 14% 94%);
-  --color-dim: hsl(184 14% 94% / 0.6);
-  --color-cyan: hsl(184 62% 52%);
-  --color-signal: hsl(41 44% 55%);
-  --color-clear: hsl(203 98% 42%);
-  --color-line: hsl(184 40% 80% / 0.16);
+  --color-abyss: hsl(200 27% 96%);
+  --color-deep: hsl(200 33% 99%);
+  --color-mist: hsl(200 18% 90%);
+  --color-ink: hsl(198 45% 16%);
+  --color-dim: hsl(200 12% 42%);
+  --color-cyan: hsl(186 80% 28%);
+  --color-signal: hsl(41 72% 42%);
+  --color-clear: hsl(210 78% 45%);
+  --color-line: hsl(200 20% 85%);
   --font-display: "Anton", sans-serif;
   --font-sans: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -57,8 +57,8 @@
 
 @utility bg-grid {
   background-image:
-    linear-gradient(hsl(189 40% 80% / 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(189 40% 80% / 0.5) 1px, transparent 1px);
+    linear-gradient(hsl(198 60% 25% / 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(198 60% 25% / 0.6) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 

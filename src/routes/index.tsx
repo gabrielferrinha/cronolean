@@ -202,6 +202,8 @@ function NovaAnalise() {
           >
             Calcular
           </button>
+          {statusSalvo && <p className="mt-2 font-mono text-[11px] text-dim">{statusSalvo}</p>}
+
 
           {resultado && (
             <div className="animate-rise mt-6 overflow-hidden rounded-2xl bg-deep ring-1 ring-line">

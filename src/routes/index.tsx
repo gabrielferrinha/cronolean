@@ -41,6 +41,7 @@ function NovaAnalise() {
   const [linhas, setLinhasState] = useState<Linha[]>([]);
   const [atividades, setAtividadesState] = useState<Atividade[]>([]);
   const [linhaId, setLinhaId] = useState("");
+  const [turno, setTurno] = useState<string>(TURNOS[0]);
   const [demanda, setDemanda] = useState("1200");
   const [pessoas, setPessoas] = useState("6");
   const [horas, setHoras] = useState("8");
@@ -48,6 +49,8 @@ function NovaAnalise() {
   const [almoco, setAlmoco] = useState(String(ALMOCO_PADRAO));
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
+  const [statusSalvo, setStatusSalvo] = useState("");
+
 
   useEffect(() => {
     const ls = getLinhas();

@@ -5,15 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-abyss: hsl(190 44% 6%);
-  --color-deep: hsl(189 40% 13%);
-  --color-mist: hsl(189 32% 31%);
-  --color-ink: hsl(188 18% 92%);
-  --color-dim: hsl(188 16% 92% / 0.58);
-  --color-cyan: hsl(189 58% 59%);
-  --color-signal: hsl(16 82% 56%);
-  --color-clear: hsl(150 46% 54%);
-  --color-line: hsl(189 34% 82% / 0.16);
+  --color-abyss: hsl(185 55% 5%);
+  --color-deep: hsl(184 48% 11%);
+  --color-mist: hsl(184 40% 28%);
+  --color-ink: hsl(184 14% 94%);
+  --color-dim: hsl(184 14% 94% / 0.6);
+  --color-cyan: hsl(184 62% 52%);
+  --color-signal: hsl(41 44% 55%);
+  --color-clear: hsl(203 98% 42%);
+  --color-line: hsl(184 40% 80% / 0.16);
   --font-display: "Anton", sans-serif;
   --font-sans: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;

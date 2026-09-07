@@ -17,13 +17,13 @@ import {
 export const Route = createFileRoute("/nova-linha")({
   head: () => ({
     meta: [
-      { title: "Nova Linha — CronoLab" },
+      { title: "Nova Linha — CronoLeanMaua" },
       {
         name: "description",
         content:
           "Cadastre uma nova linha de separação com suas atividades e ciclos cronometrados para o cálculo de mão de obra.",
       },
-      { property: "og:title", content: "Nova Linha — CronoLab" },
+      { property: "og:title", content: "Nova Linha — CronoLeanMaua" },
       {
         property: "og:description",
         content: "Cadastro completo de linha: atividades, ciclos e tempo total.",

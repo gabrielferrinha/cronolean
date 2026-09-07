@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import logoMegaG from "@/assets/megag-logo.png";
 
 const linkBase =
   "rounded-full px-4 py-1.5 font-mono text-xs text-dim transition-colors hover:text-ink";
@@ -18,15 +19,18 @@ export function Shell({ children }: { children: ReactNode }) {
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <header className="flex flex-wrap items-center justify-between gap-4 py-6">
           <Link to="/" className="flex items-center gap-3">
-            <div className="grid size-9 place-items-center rounded-lg bg-cyan/15 font-mono text-sm font-bold text-cyan ring-1 ring-cyan/40">
-              CR
-            </div>
+            <img
+              src={logoMegaG}
+              alt="Mega G"
+              className="h-10 w-auto rounded-md bg-white/90 p-1"
+            />
             <div className="leading-none">
               <div className="font-display text-lg tracking-[0.18em]">
-                CRONO<span className="text-cyan">LAB</span>
+                CRONO<span className="text-cyan">LEAN</span>
+                <span className="text-signal">MAUÁ</span>
               </div>
               <div className="mt-1 font-mono text-[10px] tracking-[0.28em] text-dim uppercase">
-                miudezas secas
+                mega g · miudezas secas
               </div>
             </div>
           </Link>

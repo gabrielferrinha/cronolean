@@ -28,6 +28,8 @@ export const Route = createFileRoute("/nova-linha")({
         property: "og:description",
         content: "Cadastro completo de linha: atividades, ciclos e tempo total.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: NovaLinha,

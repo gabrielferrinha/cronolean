@@ -27,6 +27,8 @@ export const Route = createFileRoute("/banco")({
         property: "og:description",
         content: "Atividades, ciclos e tempos médios da operação de separação.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Banco,

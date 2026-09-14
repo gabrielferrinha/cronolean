@@ -282,15 +282,22 @@ function Indicadores() {
 
               <Painel titulo="Situação das equipes" subtitulo="Distribuição das análises">
                 <div className="h-72 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="82%">
                     <PieChart>
                       <Pie data={distribuicao} dataKey="valor" nameKey="nome" innerRadius={58} outerRadius={88} paddingAngle={3}>
                         {distribuicao.map((item) => <Cell key={item.nome} fill={item.cor} />)}
                       </Pie>
                       <Tooltip contentStyle={tooltipStyle} />
-                      <Legend wrapperStyle={{ fontSize: 11 }} />
                     </PieChart>
                   </ResponsiveContainer>
+                  <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-dim">
+                    {distribuicao.map((item) => (
+                      <span key={item.nome} className="flex items-center gap-1.5">
+                        <span className={`size-2 rounded-full ${corDistribuicao(item.nome)}`} aria-hidden="true" />
+                        {item.nome}: {item.valor}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Painel>
             </section>
@@ -409,6 +416,12 @@ function dataLocalHoje() {
   const mes = String(agora.getMonth() + 1).padStart(2, "0");
   const dia = String(agora.getDate()).padStart(2, "0");
   return `${ano}-${mes}-${dia}`;
+}
+
+function corDistribuicao(nome: string) {
+  if (nome === "Falta") return "bg-signal";
+  if (nome === "Equipe exata") return "bg-cyan";
+  return "bg-clear";
 }
 
 const tooltipStyle = {

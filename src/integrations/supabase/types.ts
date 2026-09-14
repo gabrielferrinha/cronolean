@@ -24,13 +24,16 @@ export type Database = {
           id: string
           linha_nome: string
           observacao: string | null
+          operadores_missoes: number
           operadores_necessarios: number
           operadores_teoricos: number
           pausas_min: number
           pessoas_disponiveis: number
+          quantidade_missoes: number
           resultado: string
           takt_min: number
           tempo_disponivel_min: number
+          tempo_missao_min: number
           tempo_total_min: number
           turno: string
         }
@@ -43,13 +46,16 @@ export type Database = {
           id?: string
           linha_nome: string
           observacao?: string | null
+          operadores_missoes?: number
           operadores_necessarios: number
           operadores_teoricos: number
           pausas_min?: number
           pessoas_disponiveis: number
+          quantidade_missoes?: number
           resultado: string
           takt_min: number
           tempo_disponivel_min: number
+          tempo_missao_min?: number
           tempo_total_min: number
           turno: string
         }
@@ -62,13 +68,16 @@ export type Database = {
           id?: string
           linha_nome?: string
           observacao?: string | null
+          operadores_missoes?: number
           operadores_necessarios?: number
           operadores_teoricos?: number
           pausas_min?: number
           pessoas_disponiveis?: number
+          quantidade_missoes?: number
           resultado?: string
           takt_min?: number
           tempo_disponivel_min?: number
+          tempo_missao_min?: number
           tempo_total_min?: number
           turno?: string
         }

@@ -30,6 +30,9 @@ export async function salvarAnaliseNaNuvem(a: Analise, turno: string) {
     operadores_necessarios: a.operadoresNecessarios,
     diferenca: a.diferenca,
     resultado: a.resultado,
+    quantidade_missoes: a.quantidadeMissoes,
+    tempo_missao_min: a.tempoMissaoMin,
+    operadores_missoes: a.operadoresMissoes,
   });
   if (error) throw error;
 }
@@ -59,6 +62,9 @@ export async function listarAnalises(): Promise<AnaliseSalva[]> {
     operadoresNecessarios: Number(r.operadores_necessarios),
     diferenca: Number(r.diferenca),
     resultado: r.resultado,
+    quantidadeMissoes: Number(r.quantidade_missoes ?? 0),
+    tempoMissaoMin: Number(r.tempo_missao_min ?? 0),
+    operadoresMissoes: Number(r.operadores_missoes ?? 0),
   }));
 }
 

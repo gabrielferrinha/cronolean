@@ -9,7 +9,7 @@ const linkActive = "bg-cyan/15 text-cyan ring-1 ring-cyan/40";
 export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-abyss font-sans text-ink">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div aria-hidden="true" className="no-print pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -left-24 size-[520px] rounded-full bg-cyan/10 blur-[110px]" />
         <div className="animate-rip absolute top-1/3 -right-32 size-[560px] rounded-full bg-clear/10 blur-[130px]" />
         <div className="animate-rip-slow absolute bottom-0 left-1/3 size-[420px] rounded-full bg-signal/10 blur-[120px]" />
@@ -34,7 +34,7 @@ export function Shell({ children }: { children: ReactNode }) {
               </div>
             </div>
           </Link>
-          <nav className="ring-line flex items-center gap-1 rounded-full bg-white p-1 shadow-sm ring-1">
+          <nav className="no-print ring-line flex items-center gap-1 rounded-full bg-white p-1 shadow-sm ring-1">
             <Link to="/" className={linkBase} activeProps={{ className: linkActive }} activeOptions={{ exact: true }}>
               Nova análise
             </Link>

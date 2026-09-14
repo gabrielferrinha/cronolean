@@ -205,3 +205,51 @@
     color: var(--color-foreground);
   }
 }
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: white !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  header {
+    padding-block: 0 12px !important;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  main {
+    padding-bottom: 0 !important;
+  }
+
+  .indicadores-page {
+    gap: 10px !important;
+  }
+
+  .indicadores-page > section {
+    break-inside: avoid;
+  }
+
+  .indicadores-page .print-report-date {
+    display: block !important;
+  }
+
+  .indicadores-page article,
+  .indicadores-page section {
+    box-shadow: none !important;
+  }
+
+  .indicadores-page .h-72 {
+    height: 190px !important;
+  }
+}

@@ -205,3 +205,68 @@
     color: var(--color-foreground);
   }
 }
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: white !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  header {
+    padding-block: 0 12px !important;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  main {
+    padding-bottom: 0 !important;
+  }
+
+  .indicadores-page {
+    gap: 8px !important;
+    zoom: 0.72;
+  }
+
+  .indicadores-page .print-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .indicadores-page .print-charts-main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .indicadores-page .print-charts-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .indicadores-page .print-kpis,
+  .indicadores-page .print-charts-main,
+  .indicadores-page .print-charts-bottom {
+    break-inside: avoid;
+  }
+
+  .indicadores-page .print-report-date {
+    display: block !important;
+  }
+
+  .indicadores-page article,
+  .indicadores-page section {
+    box-shadow: none !important;
+  }
+
+  .indicadores-page .h-72 {
+    height: 190px !important;
+  }
+}

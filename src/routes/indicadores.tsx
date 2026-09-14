@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BarChart3, CalendarRange, CheckCircle2, RefreshCw, Target, Users } from "lucide-react";
+import { BarChart3, CalendarRange, CheckCircle2, Printer, RefreshCw, Target, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
@@ -17,6 +17,7 @@ import {
   YAxis,
 } from "recharts";
 import { Shell } from "@/components/Shell";
+import { Button } from "@/components/ui/button";
 import { TURNOS, listarAnalises, type AnaliseSalva } from "@/lib/analisesCloud";
 import { fmtNum } from "@/lib/crono";
 
@@ -66,6 +67,8 @@ function Indicadores() {
   const [fim, setFim] = useState("");
   const [turno, setTurno] = useState("Todos");
   const [linha, setLinha] = useState("Todas");
+  const [dataRelatorio, setDataRelatorio] = useState(dataLocalHoje);
+  const [erroRelatorio, setErroRelatorio] = useState("");
 
   async function carregar() {
     setCarregando(true);
@@ -168,36 +171,78 @@ function Indicadores() {
     ].filter((item) => item.valor > 0);
   }, [filtrados]);
 
+  function imprimirRelatorioDiario() {
+    if (!dataRelatorio) {
+      setErroRelatorio("Selecione a data do relatório diário.");
+      return;
+    }
+    const possuiRegistros = itens.some((item) => item.data.slice(0, 10) === dataRelatorio);
+    if (!possuiRegistros) {
+      setErroRelatorio("Não há análises salvas na data selecionada.");
+      return;
+    }
+
+    setErroRelatorio("");
+    setInicio(dataRelatorio);
+    setFim(dataRelatorio);
+    setTurno("Todos");
+    setLinha("Todas");
+    window.setTimeout(() => window.print(), 150);
+  }
+
   return (
     <Shell>
-      <div className="space-y-5">
+      <div className="indicadores-page space-y-5">
         <section className="animate-rise border-b border-line pb-5">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">Painel operacional</div>
               <h1 className="mt-2 font-display text-3xl leading-none tracking-tight">Indicadores de dimensionamento</h1>
               <p className="mt-2 text-sm text-dim">Visão consolidada das análises realizadas nos turnos.</p>
+              {inicio && inicio === fim && (
+                <p className="print-report-date mt-2 hidden text-sm font-semibold text-cyan">
+                  Relatório diário · {formatarDataCompleta(inicio)}
+                </p>
+              )}
             </div>
-            <button
+            <Button
               type="button"
               onClick={() => void carregar()}
               aria-label="Atualizar indicadores"
               title="Atualizar indicadores"
-              className="flex size-10 items-center justify-center rounded-lg bg-white text-dim shadow-sm ring-1 ring-line transition-colors hover:text-cyan"
+              variant="outline"
+              size="icon"
+              className="no-print text-dim hover:text-cyan"
             >
               <RefreshCw className={`size-4 ${carregando ? "animate-spin" : ""}`} aria-hidden="true" />
-            </button>
+            </Button>
           </div>
         </section>
 
-        <section className="grid grid-cols-1 gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-line sm:grid-cols-2 lg:grid-cols-4">
+        <section className="no-print grid grid-cols-1 gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-line sm:grid-cols-2 lg:grid-cols-4">
           <FiltroData label="Data inicial" value={inicio} onChange={setInicio} />
           <FiltroData label="Data final" value={fim} onChange={setFim} />
           <FiltroSelect label="Turno" value={turno} onChange={setTurno} options={["Todos", ...TURNOS]} />
           <FiltroSelect label="Linha" value={linha} onChange={setLinha} options={["Todas", ...linhas]} />
         </section>
 
-        {erro && <p className="rounded-lg bg-signal/10 p-3 font-mono text-xs text-signal ring-1 ring-signal/30">{erro}</p>}
+        <section className="no-print flex flex-col gap-3 rounded-xl bg-cyan/10 p-4 ring-1 ring-cyan/25 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="font-mono text-[10px] tracking-wider text-cyan uppercase">Relatório diário</div>
+            <p className="mt-1 text-sm text-dim">Selecione o dia para imprimir os indicadores dos três turnos.</p>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+            <FiltroData label="Data do relatório" value={dataRelatorio} onChange={setDataRelatorio} />
+            <Button type="button" onClick={imprimirRelatorioDiario} className="bg-cyan text-primary-foreground hover:bg-cyan/90">
+              <Printer aria-hidden="true" />
+              Imprimir relatório diário
+            </Button>
+          </div>
+        </section>
+
+        {erroRelatorio && <p className="no-print rounded-lg bg-signal/10 p-3 font-mono text-xs text-signal ring-1 ring-signal/30">{erroRelatorio}</p>}
+
+        {erro && <p className="no-print rounded-lg bg-signal/10 p-3 font-mono text-xs text-signal ring-1 ring-signal/30">{erro}</p>}
 
         {carregando && !itens.length ? (
           <div className="py-20 text-center text-sm text-dim">Carregando indicadores...</div>
@@ -209,14 +254,14 @@ function Indicadores() {
           </div>
         ) : (
           <>
-            <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <section className="print-kpis grid grid-cols-2 gap-3 lg:grid-cols-4">
               <Indicador icon={BarChart3} label="Análises" value={indicadores.total.toLocaleString("pt-BR")} detail="cálculos no período" />
               <Indicador icon={Target} label="Demanda acumulada" value={indicadores.demanda.toLocaleString("pt-BR")} detail="separações planejadas" />
               <Indicador icon={Users} label="Média necessária" value={fmtNum(indicadores.mediaNecessaria, 1)} detail="pessoas por análise" />
               <Indicador icon={CheckCircle2} label="Equipe suficiente" value={`${fmtNum(indicadores.cobertura, 0)}%`} detail="das análises realizadas" positive={indicadores.cobertura >= 80} />
             </section>
 
-            <section className="grid grid-cols-1 gap-5 xl:grid-cols-3">
+            <section className="print-charts-main grid grid-cols-1 gap-5 xl:grid-cols-3">
               <Painel titulo="Evolução diária" subtitulo="Demanda total e média de pessoas" className="xl:col-span-2">
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -237,20 +282,27 @@ function Indicadores() {
 
               <Painel titulo="Situação das equipes" subtitulo="Distribuição das análises">
                 <div className="h-72 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="82%">
                     <PieChart>
                       <Pie data={distribuicao} dataKey="valor" nameKey="nome" innerRadius={58} outerRadius={88} paddingAngle={3}>
                         {distribuicao.map((item) => <Cell key={item.nome} fill={item.cor} />)}
                       </Pie>
                       <Tooltip contentStyle={tooltipStyle} />
-                      <Legend wrapperStyle={{ fontSize: 11 }} />
                     </PieChart>
                   </ResponsiveContainer>
+                  <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-dim">
+                    {distribuicao.map((item) => (
+                      <span key={item.nome} className="flex items-center gap-1.5">
+                        <span className={`size-2 rounded-full ${corDistribuicao(item.nome)}`} aria-hidden="true" />
+                        {item.nome}: {item.valor}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Painel>
             </section>
 
-            <section className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <section className="print-charts-bottom grid grid-cols-1 gap-5 xl:grid-cols-2">
               <Painel titulo="Comparativo por turno" subtitulo="Média de pessoas por análise">
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -348,6 +400,28 @@ function FiltroSelect({ label, value, onChange, options }: { label: string; valu
 
 function formatarDia(data: string) {
   return new Date(`${data}T12:00:00`).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+}
+
+function formatarDataCompleta(data: string) {
+  return new Date(`${data}T12:00:00`).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function dataLocalHoje() {
+  const agora = new Date();
+  const ano = agora.getFullYear();
+  const mes = String(agora.getMonth() + 1).padStart(2, "0");
+  const dia = String(agora.getDate()).padStart(2, "0");
+  return `${ano}-${mes}-${dia}`;
+}
+
+function corDistribuicao(nome: string) {
+  if (nome === "Falta") return "bg-signal";
+  if (nome === "Equipe exata") return "bg-cyan";
+  return "bg-clear";
 }
 
 const tooltipStyle = {

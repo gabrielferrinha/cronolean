@@ -5,4 +5,4 @@
 - [x] Incluir a nova página na navegação principal.
 - [x] Validar o painel no computador e no celular.
 - [x] Adicionar seleção de data e impressão do relatório diário.
-- [ ] Validar o relatório diário na tela e na impressão.
+- [x] Validar o relatório diário na tela e na impressão.

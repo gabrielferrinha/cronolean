@@ -254,14 +254,14 @@ function Indicadores() {
           </div>
         ) : (
           <>
-            <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <section className="print-kpis grid grid-cols-2 gap-3 lg:grid-cols-4">
               <Indicador icon={BarChart3} label="Análises" value={indicadores.total.toLocaleString("pt-BR")} detail="cálculos no período" />
               <Indicador icon={Target} label="Demanda acumulada" value={indicadores.demanda.toLocaleString("pt-BR")} detail="separações planejadas" />
               <Indicador icon={Users} label="Média necessária" value={fmtNum(indicadores.mediaNecessaria, 1)} detail="pessoas por análise" />
               <Indicador icon={CheckCircle2} label="Equipe suficiente" value={`${fmtNum(indicadores.cobertura, 0)}%`} detail="das análises realizadas" positive={indicadores.cobertura >= 80} />
             </section>
 
-            <section className="grid grid-cols-1 gap-5 xl:grid-cols-3">
+            <section className="print-charts-main grid grid-cols-1 gap-5 xl:grid-cols-3">
               <Painel titulo="Evolução diária" subtitulo="Demanda total e média de pessoas" className="xl:col-span-2">
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -295,7 +295,7 @@ function Indicadores() {
               </Painel>
             </section>
 
-            <section className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <section className="print-charts-bottom grid grid-cols-1 gap-5 xl:grid-cols-2">
               <Painel titulo="Comparativo por turno" subtitulo="Média de pessoas por análise">
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">

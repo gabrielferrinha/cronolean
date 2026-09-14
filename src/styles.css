@@ -233,10 +233,27 @@
   }
 
   .indicadores-page {
+    gap: 8px !important;
+    zoom: 0.72;
+  }
+
+  .indicadores-page .print-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .indicadores-page .print-charts-main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) !important;
     gap: 10px !important;
   }
 
-  .indicadores-page > section {
+  .indicadores-page .print-charts-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .indicadores-page .print-kpis,
+  .indicadores-page .print-charts-main,
+  .indicadores-page .print-charts-bottom {
     break-inside: avoid;
   }
 

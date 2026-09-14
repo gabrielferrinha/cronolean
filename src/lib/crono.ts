@@ -34,6 +34,8 @@ export type Analise = {
 /** Padrões da planilha original */
 export const PAUSAS_PADRAO = 20;
 export const ALMOCO_PADRAO = 60;
+export const MISSOES_PADRAO = 4;
+export const SEPARACOES_POR_MISSOES_PADRAO = 10;
 /** Média das 3 missões observadas: aviso à mesa + busca do pedido. */
 export const TEMPO_MEDIO_MISSAO_SEG = (51 + 20 + 30 + (4 * 60 + 43) + (7 * 60 + 40) + (60 + 19)) / 3;
 
@@ -90,6 +92,10 @@ export function mediaSegundos(ciclos: (number | null)[]): number {
 
 export function tempoTotalMin(atividades: Atividade[]): number {
   return atividades.reduce((sum, a) => sum + mediaSegundos(a.ciclos), 0) / 60;
+}
+
+export function quantidadeMissoesPadrao(demanda: number): number {
+  return Math.ceil((Math.max(0, demanda) * MISSOES_PADRAO) / SEPARACOES_POR_MISSOES_PADRAO);
 }
 
 export function calcular(params: {

@@ -10,6 +10,7 @@ import {
   getAtividades,
   getHistorico,
   getLinhas,
+  quantidadeMissoesPadrao,
   setHistorico,
   type Analise,
   type Atividade,
@@ -50,6 +51,7 @@ function NovaAnalise() {
   const [pausas, setPausas] = useState(String(PAUSAS_PADRAO));
   const [almoco, setAlmoco] = useState(String(ALMOCO_PADRAO));
   const [considerarMissoes, setConsiderarMissoes] = useState(false);
+  const [modoMissoes, setModoMissoes] = useState<"padrao" | "manual">("padrao");
   const [quantidadeMissoes, setQuantidadeMissoes] = useState("1");
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
@@ -71,6 +73,7 @@ function NovaAnalise() {
 
   const num = (v: string) => Number(v.replace(",", ".")) || 0;
   const tempoEfetivo = Math.max(0, num(horas) * 60 - num(pausas) - num(almoco));
+  const missoesPadrao = quantidadeMissoesPadrao(Number(demanda) || 0);
 
   function onCalcular() {
     const d = Number(demanda);
@@ -78,11 +81,15 @@ function NovaAnalise() {
     const h = num(horas);
     const pa = num(pausas);
     const al = num(almoco);
-    const missoes = considerarMissoes ? Number(quantidadeMissoes) : 0;
+    const missoes = considerarMissoes
+      ? modoMissoes === "padrao"
+        ? quantidadeMissoesPadrao(d)
+        : Number(quantidadeMissoes)
+      : 0;
     if (!d || d <= 0) return setErro("Informe a demanda de separações do período.");
     if (!h || h <= 0) return setErro("Informe a jornada disponível em horas.");
     if (h * 60 - pa - al <= 0) return setErro("Pausas e almoço maiores que a jornada.");
-    if (considerarMissoes && (!Number.isInteger(missoes) || missoes <= 0)) {
+    if (considerarMissoes && modoMissoes === "manual" && (!Number.isInteger(missoes) || missoes <= 0)) {
       return setErro("Informe uma quantidade inteira de missões maior que zero.");
     }
     if (!atividadesLinha.length) return setErro("Esta linha ainda não tem atividades no banco de tempos.");
@@ -227,13 +234,49 @@ function NovaAnalise() {
                 </div>
               </div>
               {considerarMissoes && (
-                <div className="mt-3 max-w-48">
-                  <Campo
-                    label="Quantas missões?"
-                    value={quantidadeMissoes}
-                    onChange={setQuantidadeMissoes}
-                    sufixo="missões"
-                  />
+                <div className="mt-3 border-t border-line pt-3">
+                  <label className="font-mono text-[10px] tracking-[0.2em] text-dim uppercase">
+                    Como calcular as missões?
+                  </label>
+                  <div className="mt-1.5 grid grid-cols-2 gap-2" role="group" aria-label="Modo de cálculo das missões">
+                    {([
+                      ["padrao", "Padrão · 4 a cada 10"],
+                      ["manual", "Informar quantidade"],
+                    ] as const).map(([modo, label]) => (
+                      <button
+                        key={modo}
+                        type="button"
+                        onClick={() => setModoMissoes(modo)}
+                        aria-pressed={modoMissoes === modo}
+                        className={`rounded-lg px-3 py-2 font-mono text-xs ring-1 transition-colors ${
+                          modoMissoes === modo
+                            ? "bg-cyan text-abyss ring-cyan"
+                            : "bg-white text-dim ring-line hover:text-ink"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  {modoMissoes === "padrao" ? (
+                    <div className="mt-3 rounded-lg bg-cyan/10 px-3 py-2.5 ring-1 ring-cyan/30">
+                      <div className="font-mono text-[10px] tracking-wider text-dim uppercase">
+                        Quantidade calculada
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-cyan">
+                        {missoesPadrao} missões para {Number(demanda) || 0} separações
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-3 max-w-48">
+                      <Campo
+                        label="Quantas missões?"
+                        value={quantidadeMissoes}
+                        onChange={setQuantidadeMissoes}
+                        sufixo="missões"
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

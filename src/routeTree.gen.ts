@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BancoRouteImport } from './routes/banco'
 import { Route as HistoricoRouteImport } from './routes/historico'
+import { Route as IndicadoresRouteImport } from './routes/indicadores'
 import { Route as NovaLinhaRouteImport } from './routes/nova-linha'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const HistoricoRoute = HistoricoRouteImport.update({
   path: '/historico',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndicadoresRoute = IndicadoresRouteImport.update({
+  id: '/indicadores',
+  path: '/indicadores',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NovaLinhaRoute = NovaLinhaRouteImport.update({
   id: '/nova-linha',
   path: '/nova-linha',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
   '/historico': typeof HistoricoRoute
+  '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
   '/historico': typeof HistoricoRoute
+  '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,23 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
   '/historico': typeof HistoricoRoute
+  '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/banco' | '/historico' | '/nova-linha'
+  fullPaths: '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/banco' | '/historico' | '/nova-linha'
-  id: '__root__' | '/' | '/banco' | '/historico' | '/nova-linha'
+  to: '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
+  id:
+    '__root__' | '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BancoRoute: typeof BancoRoute
   HistoricoRoute: typeof HistoricoRoute
+  IndicadoresRoute: typeof IndicadoresRoute
   NovaLinhaRoute: typeof NovaLinhaRoute
 }
 
@@ -92,6 +103,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HistoricoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/indicadores': {
+      id: '/indicadores'
+      path: '/indicadores'
+      fullPath: '/indicadores'
+      preLoaderRoute: typeof IndicadoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nova-linha': {
       id: '/nova-linha'
       path: '/nova-linha'
@@ -106,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BancoRoute: BancoRoute,
   HistoricoRoute: HistoricoRoute,
+  IndicadoresRoute: IndicadoresRoute,
   NovaLinhaRoute: NovaLinhaRoute,
 }
 export const routeTree = rootRouteImport

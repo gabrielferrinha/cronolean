@@ -8,4 +8,4 @@
 - [x] Validar o relatório diário na tela e na impressão.
 - [x] Criar a página gerencial de custos e economia operacional.
 - [x] Mostrar o ganho de capacidade com uma pessoa dedicada às missões.
-- [ ] Validar a página de custos no computador e no celular.
+- [x] Validar a página de custos no computador e no celular.

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BancoRouteImport } from './routes/banco'
+import { Route as CustosRouteImport } from './routes/custos'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as IndicadoresRouteImport } from './routes/indicadores'
 import { Route as NovaLinhaRouteImport } from './routes/nova-linha'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const BancoRoute = BancoRouteImport.update({
   id: '/banco',
   path: '/banco',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustosRoute = CustosRouteImport.update({
+  id: '/custos',
+  path: '/custos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoricoRoute = HistoricoRouteImport.update({
@@ -44,6 +50,7 @@ const NovaLinhaRoute = NovaLinhaRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
+  '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
+  '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
@@ -59,22 +67,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/banco': typeof BancoRoute
+  '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
   '/nova-linha': typeof NovaLinhaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
+  fullPaths:
+    '/' | '/banco' | '/custos' | '/historico' | '/indicadores' | '/nova-linha'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
+  to: '/' | '/banco' | '/custos' | '/historico' | '/indicadores' | '/nova-linha'
   id:
-    '__root__' | '/' | '/banco' | '/historico' | '/indicadores' | '/nova-linha'
+    | '__root__'
+    | '/'
+    | '/banco'
+    | '/custos'
+    | '/historico'
+    | '/indicadores'
+    | '/nova-linha'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BancoRoute: typeof BancoRoute
+  CustosRoute: typeof CustosRoute
   HistoricoRoute: typeof HistoricoRoute
   IndicadoresRoute: typeof IndicadoresRoute
   NovaLinhaRoute: typeof NovaLinhaRoute
@@ -94,6 +111,13 @@ declare module '@tanstack/react-router' {
       path: '/banco'
       fullPath: '/banco'
       preLoaderRoute: typeof BancoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custos': {
+      id: '/custos'
+      path: '/custos'
+      fullPath: '/custos'
+      preLoaderRoute: typeof CustosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/historico': {
@@ -123,6 +147,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BancoRoute: BancoRoute,
+  CustosRoute: CustosRoute,
   HistoricoRoute: HistoricoRoute,
   IndicadoresRoute: IndicadoresRoute,
   NovaLinhaRoute: NovaLinhaRoute,

@@ -44,6 +44,9 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/indicadores" className={linkBase} activeProps={{ className: linkActive }}>
               Indicadores
             </Link>
+            <Link to="/custos" className={linkBase} activeProps={{ className: linkActive }}>
+              Custos
+            </Link>
             <Link to="/historico" className={linkBase} activeProps={{ className: linkActive }}>
               Histórico
             </Link>

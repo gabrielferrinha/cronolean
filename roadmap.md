@@ -10,4 +10,4 @@
 - [x] Mostrar o ganho de capacidade com uma pessoa dedicada às missões.
 - [x] Validar a página de custos no computador e no celular.
 - [x] Criar a página de referência com fórmulas, premissas, exemplos e fontes.
-- [ ] Validar a página de referências no computador e no celular.
+- [x] Validar a página de referências no computador e no celular.

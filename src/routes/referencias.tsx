@@ -196,7 +196,7 @@ function Referencias() {
                 <Referencia titulo="Takt Time" origem="Lean Enterprise Institute" descricao="Define takt como tempo disponível dividido pela demanda do cliente." href="https://www.lean.org/lexicon-terms/takt-time/" />
                 <Referencia titulo="Standardized Work" origem="Lean Enterprise Institute" descricao="Relaciona takt time, sequência de trabalho e estoque padrão no trabalho padronizado." href="https://www.lean.org/lexicon-terms/standardized-work/" />
                 <Referencia titulo="TPS Handbook" origem="Art of Lean" descricao="Apresenta fundamentos do Sistema Toyota, fluxo, takt e balanceamento do trabalho." href="https://artoflean.com/wp-content/uploads/2019/01/Basic_TPS_Handbook.pdf" />
-                <Referencia titulo="Introdução ao Estudo do Trabalho" origem="Organização Internacional do Trabalho" descricao="Referência clássica para estudo de métodos e medição do trabalho." href="https://www.ilo.org/publications/introduction-work-study" />
+                <Referencia titulo="Introdução ao Estudo do Trabalho" origem="Organização Internacional do Trabalho" descricao="Referência clássica para estudo de métodos e medição do trabalho." href="https://www.ilo.org/media/310396/download" />
               </div>
             </div>
           </div>

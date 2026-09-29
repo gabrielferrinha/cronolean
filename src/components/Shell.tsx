@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import logoMegaG from "@/assets/megag-logo.png";
 
 const linkBase =
-  "rounded-full px-4 py-1.5 font-mono text-xs text-dim transition-colors hover:text-ink";
+  "rounded-lg px-2 py-2 text-center font-mono text-xs text-dim transition-colors hover:text-ink sm:rounded-full sm:px-4 sm:py-1.5";
 const linkActive = "bg-cyan/15 text-cyan ring-1 ring-cyan/40";
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -34,7 +34,7 @@ export function Shell({ children }: { children: ReactNode }) {
               </div>
             </div>
           </Link>
-          <nav className="no-print ring-line flex items-center gap-1 rounded-full bg-white p-1 shadow-sm ring-1">
+          <nav className="no-print ring-line grid w-full grid-cols-3 items-center gap-1 rounded-xl bg-white p-1 shadow-sm ring-1 sm:flex sm:w-auto sm:rounded-full">
             <Link to="/" className={linkBase} activeProps={{ className: linkActive }} activeOptions={{ exact: true }}>
               Nova análise
             </Link>
@@ -49,6 +49,9 @@ export function Shell({ children }: { children: ReactNode }) {
             </Link>
             <Link to="/historico" className={linkBase} activeProps={{ className: linkActive }}>
               Histórico
+            </Link>
+            <Link to="/referencias" className={linkBase} activeProps={{ className: linkActive }}>
+              Referências
             </Link>
           </nav>
         </header>

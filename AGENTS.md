@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Decisões do projeto
+
+- A memória de cálculo fica na rota pública `/referencias`, separando regras operacionais internas de fontes conceituais externas para garantir rastreabilidade.

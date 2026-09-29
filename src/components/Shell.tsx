@@ -50,6 +50,9 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/historico" className={linkBase} activeProps={{ className: linkActive }}>
               Histórico
             </Link>
+            <Link to="/referencias" className={linkBase} activeProps={{ className: linkActive }}>
+              Referências
+            </Link>
           </nav>
         </header>
         <main className="pb-16">{children}</main>

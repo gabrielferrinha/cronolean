@@ -26,18 +26,11 @@ export type Analise = {
   operadoresNecessarios: number;
   diferenca: number;
   resultado: string;
-  quantidadeMissoes: number;
-  tempoMissaoMin: number;
-  operadoresMissoes: number;
 };
 
 /** Padrões da planilha original */
 export const PAUSAS_PADRAO = 20;
 export const ALMOCO_PADRAO = 60;
-export const MISSOES_PADRAO = 4;
-export const SEPARACOES_POR_MISSOES_PADRAO = 10;
-/** Média das 3 missões observadas: aviso à mesa + busca do pedido. */
-export const TEMPO_MEDIO_MISSAO_SEG = (51 + 20 + 30 + (4 * 60 + 43) + (7 * 60 + 40) + (60 + 19)) / 3;
 
 const KEY_LINHAS = "crono.linhas";
 const KEY_ATIVIDADES = "crono.atividades";
@@ -94,17 +87,12 @@ export function tempoTotalMin(atividades: Atividade[]): number {
   return atividades.reduce((sum, a) => sum + mediaSegundos(a.ciclos), 0) / 60;
 }
 
-export function quantidadeMissoesPadrao(demanda: number): number {
-  return Math.ceil((Math.max(0, demanda) * MISSOES_PADRAO) / SEPARACOES_POR_MISSOES_PADRAO);
-}
-
 export function calcular(params: {
   demanda: number;
   pessoasDisponiveis: number;
   horasDisponiveis: number;
   pausasMin?: number;
   almocoMin?: number;
-  quantidadeMissoes?: number;
   atividades: Atividade[];
 }) {
   const {
@@ -113,7 +101,6 @@ export function calcular(params: {
     horasDisponiveis,
     pausasMin = PAUSAS_PADRAO,
     almocoMin = ALMOCO_PADRAO,
-    quantidadeMissoes = 0,
     atividades,
   } = params;
   // Igual à planilha: (horas*60) - pausas - almoço
@@ -123,8 +110,6 @@ export function calcular(params: {
   const teoricos = taktMin > 0 ? total / taktMin : 0;
   const necessarios = Math.ceil(teoricos - 1e-9);
   const diferenca = pessoasDisponiveis - necessarios;
-  const tempoMissaoMin = (Math.max(0, quantidadeMissoes) * TEMPO_MEDIO_MISSAO_SEG) / 60;
-  const operadoresMissoes = tempoDisponivelMin > 0 ? Math.ceil(tempoMissaoMin / tempoDisponivelMin - 1e-9) : 0;
   const resultado =
     diferenca < 0
       ? `Faltam ${Math.abs(diferenca)} pessoa${Math.abs(diferenca) > 1 ? "s" : ""}`
@@ -139,9 +124,6 @@ export function calcular(params: {
     operadoresNecessarios: necessarios,
     diferenca,
     resultado,
-    quantidadeMissoes: Math.max(0, Math.floor(quantidadeMissoes)),
-    tempoMissaoMin,
-    operadoresMissoes,
   };
 }
 

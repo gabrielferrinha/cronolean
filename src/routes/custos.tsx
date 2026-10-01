@@ -5,7 +5,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -38,8 +37,6 @@ export const Route = createFileRoute("/custos")({
 
 const chartColors = {
   primary: "var(--color-cyan)",
-  warning: "var(--color-signal)",
-  success: "var(--color-clear)",
   muted: "var(--color-dim)",
   grid: "var(--color-line)",
 };

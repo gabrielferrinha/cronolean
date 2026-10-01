@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Banknote, Clock3, RefreshCw, ShieldCheck, TrendingDown, UserRoundCheck } from "lucide-react";
+import { Banknote, RefreshCw, TrendingDown, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -22,12 +21,12 @@ export const Route = createFileRoute("/custos")({
       { title: "Custos e economia — CronoLeanMaua" },
       {
         name: "description",
-        content: "Painel gerencial de economia com dimensionamento e capacidade preservada por uma pessoa dedicada às missões.",
+        content: "Painel gerencial de economia potencial com base no dimensionamento das equipes.",
       },
       { property: "og:title", content: "Custos e economia — CronoLeanMaua" },
       {
         property: "og:description",
-        content: "Visualize oportunidades de economia e o ganho operacional de uma pessoa dedicada às missões.",
+        content: "Visualize oportunidades de economia e realocação com base no dimensionamento das equipes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -38,8 +37,6 @@ export const Route = createFileRoute("/custos")({
 
 const chartColors = {
   primary: "var(--color-cyan)",
-  warning: "var(--color-signal)",
-  success: "var(--color-clear)",
   muted: "var(--color-dim)",
   grid: "var(--color-line)",
 };
@@ -48,9 +45,7 @@ type ResumoTurno = {
   turno: string;
   analises: number;
   economia: number;
-  valorProtegido: number;
-  horasProtegidas: number;
-  cobertura: number;
+  pessoasRealocaveis: number;
 };
 
 function Custos() {
@@ -115,15 +110,10 @@ function Custos() {
     () =>
       filtrados.map((item) => {
         const sobraRealocavel = Math.max(0, item.diferenca);
-        const minutosProtegidos = Math.min(item.tempoMissaoMin, item.tempoDisponivelMin);
-        const custoMinuto = item.tempoDisponivelMin > 0 ? custoDia / item.tempoDisponivelMin : 0;
-        const cobertura = item.tempoMissaoMin > 0 ? Math.min(100, (minutosProtegidos / item.tempoMissaoMin) * 100) : 0;
         return {
           ...item,
+          sobraRealocavel,
           economia: sobraRealocavel * custoDia,
-          minutosProtegidos,
-          valorProtegido: minutosProtegidos * custoMinuto,
-          cobertura,
         };
       }),
     [custoDia, filtrados],
@@ -131,22 +121,17 @@ function Custos() {
 
   const indicadores = useMemo(() => {
     const economia = custos.reduce((soma, item) => soma + item.economia, 0);
-    const minutosProtegidos = custos.reduce((soma, item) => soma + item.minutosProtegidos, 0);
-    const valorProtegido = custos.reduce((soma, item) => soma + item.valorProtegido, 0);
-    const comMissoes = custos.filter((item) => item.tempoMissaoMin > 0);
-    const cobertura = comMissoes.length
-      ? comMissoes.reduce((soma, item) => soma + item.cobertura, 0) / comMissoes.length
-      : 0;
-    return { economia, minutosProtegidos, valorProtegido, cobertura };
+    const pessoasRealocaveis = custos.reduce((soma, item) => soma + item.sobraRealocavel, 0);
+    const analisesComSobra = custos.filter((item) => item.sobraRealocavel > 0).length;
+    return { economia, pessoasRealocaveis, analisesComSobra };
   }, [custos]);
 
   const evolucao = useMemo(() => {
-    const mapa = new Map<string, { economia: number; valorProtegido: number }>();
+    const mapa = new Map<string, { economia: number }>();
     for (const item of custos) {
       const dia = item.data.slice(0, 10);
-      const atual = mapa.get(dia) ?? { economia: 0, valorProtegido: 0 };
+      const atual = mapa.get(dia) ?? { economia: 0 };
       atual.economia += item.economia;
-      atual.valorProtegido += item.valorProtegido;
       mapa.set(dia, atual);
     }
     return [...mapa.entries()]
@@ -158,16 +143,11 @@ function Custos() {
     () =>
       TURNOS.map((nomeTurno) => {
         const registros = custos.filter((item) => item.turno === nomeTurno);
-        const comMissoes = registros.filter((item) => item.tempoMissaoMin > 0);
         return {
           turno: nomeTurno,
           analises: registros.length,
           economia: registros.reduce((soma, item) => soma + item.economia, 0),
-          valorProtegido: registros.reduce((soma, item) => soma + item.valorProtegido, 0),
-          horasProtegidas: registros.reduce((soma, item) => soma + item.minutosProtegidos, 0) / 60,
-          cobertura: comMissoes.length
-            ? comMissoes.reduce((soma, item) => soma + item.cobertura, 0) / comMissoes.length
-            : 0,
+          pessoasRealocaveis: registros.reduce((soma, item) => soma + item.sobraRealocavel, 0),
         };
       }),
     [custos],
@@ -182,7 +162,7 @@ function Custos() {
               <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">Visão gerencial</div>
               <h1 className="mt-2 font-display text-3xl leading-none tracking-tight">Custos e economia operacional</h1>
               <p className="mt-2 max-w-2xl text-sm text-dim">
-                Converta o dimensionamento em valores e veja a capacidade preservada por uma pessoa dedicada às missões.
+                 Converta o dimensionamento em valores e acompanhe oportunidades de realocação da equipe.
               </p>
             </div>
             <Button type="button" onClick={() => void carregar()} variant="outline" size="icon" aria-label="Atualizar custos" title="Atualizar custos">
@@ -216,11 +196,10 @@ function Custos() {
           </div>
         ) : (
           <>
-            <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <Indicador icon={TrendingDown} label="Economia por dimensionamento" value={premissasValidas ? moeda(indicadores.economia) : "—"} detail="valor de pessoas excedentes realocáveis" />
-              <Indicador icon={Clock3} label="Capacidade preservada" value={`${fmtNum(indicadores.minutosProtegidos / 60, 1)} h`} detail="tempo de separação protegido das missões" />
-              <Indicador icon={UserRoundCheck} label="Valor da capacidade" value={premissasValidas ? moeda(indicadores.valorProtegido) : "—"} detail="equivalente financeiro do tempo protegido" />
-              <Indicador icon={ShieldCheck} label="Cobertura por 1 pessoa" value={`${fmtNum(indicadores.cobertura, 0)}%`} detail="média da carga de missões atendida" positive={indicadores.cobertura >= 80} />
+              <Indicador icon={Users} label="Pessoas realocáveis" value={fmtNum(indicadores.pessoasRealocaveis, 0)} detail="soma das sobras nos cálculos" />
+              <Indicador icon={Banknote} label="Análises com sobra" value={indicadores.analisesComSobra.toLocaleString("pt-BR")} detail="oportunidades de realocação" />
             </section>
 
             <section className="grid grid-cols-1 gap-5 xl:grid-cols-3">
@@ -232,27 +211,25 @@ function Custos() {
                       <XAxis dataKey="dia" tick={{ fill: chartColors.muted, fontSize: 10 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fill: chartColors.muted, fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={valorAbreviado} />
                       <Tooltip contentStyle={tooltipStyle} formatter={(valor) => moeda(Number(valor))} />
-                      <Legend wrapperStyle={{ fontSize: 11 }} />
                       <Bar dataKey="economia" name="Dimensionamento" fill={chartColors.primary} radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="valorProtegido" name="Capacidade protegida" fill={chartColors.success} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </Painel>
 
-              <Painel titulo="Leitura do ganho" subtitulo="O que uma pessoa dedicada representa">
+               <Painel titulo="Leitura do ganho" subtitulo="Como interpretar a oportunidade">
                 <div className="space-y-4 text-sm text-dim">
-                  <Leitura numero="01" texto="Uma pessoa dedicada absorve missões até o limite do tempo efetivo do turno." />
-                  <Leitura numero="02" texto="Esse tempo deixa de interromper a equipe e volta a ficar disponível para separação." />
-                  <Leitura numero="03" texto="O valor exibido é capacidade preservada; não é redução direta de folha." />
+                   <Leitura numero="01" texto="A diferença positiva indica pessoas acima da necessidade calculada para o turno." />
+                   <Leitura numero="02" texto="O valor converte essa sobra em uma oportunidade estimada de realocação." />
+                   <Leitura numero="03" texto="O resultado não representa redução automática de folha." />
                 </div>
                 <div className="mt-5 rounded-lg bg-cyan/10 p-3 text-xs leading-relaxed text-cyan ring-1 ring-cyan/25">
-                  Considera realocação de uma pessoa da equipe, sem nova contratação. Quando a cobertura fica abaixo de 100%, uma pessoa não atende toda a carga prevista.
+                   A estimativa considera o custo diário completo informado e deve ser validada pela gestão antes de qualquer decisão.
                 </div>
               </Painel>
             </section>
 
-            <Painel titulo="Resultado por turno" subtitulo="Economia e proteção da operação no período selecionado">
+            <Painel titulo="Resultado por turno" subtitulo="Economia potencial e realocação no período selecionado">
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[720px] border-collapse text-sm tabular-nums">
                   <thead>
@@ -260,9 +237,7 @@ function Custos() {
                       <th className="px-2 py-3 text-left font-normal">Turno</th>
                       <th className="px-2 py-3 text-right font-normal">Análises</th>
                       <th className="px-2 py-3 text-right font-normal">Economia dimensionamento</th>
-                      <th className="px-2 py-3 text-right font-normal">Horas protegidas</th>
-                      <th className="px-2 py-3 text-right font-normal">Valor protegido</th>
-                      <th className="px-2 py-3 text-right font-normal">Cobertura</th>
+                       <th className="px-2 py-3 text-right font-normal">Pessoas realocáveis</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -271,11 +246,7 @@ function Custos() {
                         <td className="px-2 py-4 font-medium text-cyan">{item.turno}</td>
                         <td className="px-2 py-4 text-right">{item.analises}</td>
                         <td className="px-2 py-4 text-right">{premissasValidas ? moeda(item.economia) : "—"}</td>
-                        <td className="px-2 py-4 text-right">{fmtNum(item.horasProtegidas, 1)} h</td>
-                        <td className="px-2 py-4 text-right">{premissasValidas ? moeda(item.valorProtegido) : "—"}</td>
-                        <td className={`px-2 py-4 text-right font-semibold ${item.cobertura >= 80 ? "text-clear" : "text-signal"}`}>
-                          {fmtNum(item.cobertura, 0)}%
-                        </td>
+                         <td className="px-2 py-4 text-right">{fmtNum(item.pessoasRealocaveis, 0)}</td>
                       </tr>
                     ))}
                   </tbody>

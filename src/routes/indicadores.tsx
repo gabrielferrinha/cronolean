@@ -27,7 +27,7 @@ export const Route = createFileRoute("/indicadores")({
       { title: "Indicadores operacionais — CronoLeanMaua" },
       {
         name: "description",
-        content: "Painel de demanda, dimensionamento, missões e disponibilidade por período e turno.",
+        content: "Painel de demanda, dimensionamento e disponibilidade por período e turno.",
       },
       { property: "og:title", content: "Indicadores operacionais — CronoLeanMaua" },
       {
@@ -47,7 +47,6 @@ type ResumoTurno = {
   demanda: number;
   disponiveis: number;
   necessarios: number;
-  missoes: number;
   cobertura: number;
 };
 
@@ -153,7 +152,6 @@ function Indicadores() {
           necessarios: total
             ? registros.reduce((soma, item) => soma + item.operadoresNecessarios, 0) / total
             : 0,
-          missoes: registros.reduce((soma, item) => soma + item.quantidadeMissoes, 0),
           cobertura: total ? (registros.filter((item) => item.diferenca >= 0).length / total) * 100 : 0,
         };
       }),
@@ -327,7 +325,6 @@ function Indicadores() {
                         <th className="px-2 py-3 text-left font-normal">Turno</th>
                         <th className="px-2 py-3 text-right font-normal">Análises</th>
                         <th className="px-2 py-3 text-right font-normal">Demanda</th>
-                        <th className="px-2 py-3 text-right font-normal">Missões</th>
                         <th className="px-2 py-3 text-right font-normal">Cobertura</th>
                       </tr>
                     </thead>
@@ -337,7 +334,6 @@ function Indicadores() {
                           <td className="px-2 py-4 font-medium text-cyan">{item.turno}</td>
                           <td className="px-2 py-4 text-right">{item.analises}</td>
                           <td className="px-2 py-4 text-right">{item.demanda.toLocaleString("pt-BR")}</td>
-                          <td className="px-2 py-4 text-right">{item.missoes.toLocaleString("pt-BR")}</td>
                           <td className={`px-2 py-4 text-right font-semibold ${item.cobertura >= 80 ? "text-clear" : "text-signal"}`}>
                             {fmtNum(item.cobertura, 0)}%
                           </td>

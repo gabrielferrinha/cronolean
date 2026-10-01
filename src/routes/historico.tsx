@@ -145,7 +145,7 @@ function Historico() {
                   </span>
                 </div>
                 <div className="ring-line overflow-x-auto rounded-xl ring-1">
-                  <table className="w-full min-w-[1120px] border-collapse font-mono text-xs tabular-nums">
+                    <table className="w-full min-w-[980px] border-collapse font-mono text-xs tabular-nums">
                     <thead>
                       <tr className="bg-deep text-[10px] tracking-wider text-dim uppercase">
                         {[
@@ -159,8 +159,6 @@ function Historico() {
                           "T. total",
                           "Teóricos",
                           "Necess.",
-                           "Missões",
-                           "P/ missões",
                           "Dif.",
                           "Resultado",
                           "",
@@ -189,8 +187,6 @@ function Historico() {
                           <td className="px-2 py-2">{fmtMMSS(a.tempoTotalMin * 60)}</td>
                           <td className="px-2 py-2">{fmtNum(a.operadoresTeoricos)}</td>
                           <td className="px-2 py-2 text-cyan">{a.operadoresNecessarios}</td>
-                           <td className="px-2 py-2">{a.quantidadeMissoes}</td>
-                           <td className="px-2 py-2 text-signal">{a.operadoresMissoes}</td>
                           <td
                             className={`px-2 py-2 ${a.diferenca < 0 ? "text-signal" : "text-clear"}`}
                           >

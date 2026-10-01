@@ -12,12 +12,7 @@ import {
 import { Shell } from "@/components/Shell";
 import {
   ALMOCO_PADRAO,
-  MISSOES_PADRAO,
   PAUSAS_PADRAO,
-  SEPARACOES_POR_MISSOES_PADRAO,
-  TEMPO_MEDIO_MISSAO_SEG,
-  fmtMMSS,
-  fmtNum,
 } from "@/lib/crono";
 
 export const Route = createFileRoute("/referencias")({
@@ -31,7 +26,7 @@ export const Route = createFileRoute("/referencias")({
       { property: "og:title", content: "Referência para cálculos — CronoLeanMaua" },
       {
         property: "og:description",
-        content: "Memória de cálculo completa da cronoanálise, dimensionamento, missões e indicadores gerenciais.",
+        content: "Memória de cálculo completa da cronoanálise, dimensionamento e indicadores gerenciais.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -39,8 +34,6 @@ export const Route = createFileRoute("/referencias")({
   }),
   component: Referencias,
 });
-
-const tempoMissaoMin = TEMPO_MEDIO_MISSAO_SEG / 60;
 
 function Referencias() {
   return (
@@ -57,7 +50,7 @@ function Referencias() {
         <section className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <Resumo icon={Calculator} numero="01" titulo="Dados medidos" texto="Dez ciclos cronometrados por atividade formam o banco de tempos da linha." />
           <Resumo icon={Target} numero="02" titulo="Dimensionamento" texto="O conteúdo de trabalho é comparado ao takt time para calcular a equipe." />
-          <Resumo icon={Users} numero="03" titulo="Decisão operacional" texto="O resultado mostra separação e missões em equipes independentes." />
+          <Resumo icon={Users} numero="03" titulo="Decisão operacional" texto="O resultado compara a equipe disponível com a necessidade calculada." />
         </section>
 
         <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-line">
@@ -103,63 +96,22 @@ function Referencias() {
             </ul>
           </Bloco>
 
-          <Bloco numero="05" titulo="Missões" subtitulo="Equipe exclusiva para tratar ocorrências">
-            <Formula titulo="Quantidade padrão" expressao={`Missões = teto(demanda × ${MISSOES_PADRAO} ÷ ${SEPARACOES_POR_MISSOES_PADRAO})`} />
-            <p className="text-sm leading-relaxed text-dim">No modo manual, a quantidade informada pelo operador substitui a quantidade padrão.</p>
-            <Formula titulo="Carga de missões" expressao={`Carga (min) = quantidade de missões × ${fmtNum(tempoMissaoMin, 2)} min`} />
-            <Formula titulo="Pessoas para missões" expressao="Pessoas para missões = teto(carga de missões ÷ tempo efetivo)" />
-            <div className="rounded-lg bg-signal/10 p-3 text-xs leading-relaxed text-signal ring-1 ring-signal/25">
-              Pessoas para separação e pessoas para missões são exibidas separadamente. O aplicativo não soma automaticamente as duas equipes.
-            </div>
-          </Bloco>
         </section>
 
         <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-line">
-          <CabecalhoSecao numero="06" titulo="Memória do tempo de missão" subtitulo="Dados reais informados pela operação" />
-          <div className="mt-5 overflow-x-auto">
-            <table className="w-full min-w-[650px] border-collapse text-sm tabular-nums">
-              <thead>
-                <tr className="border-b border-line font-mono text-[10px] tracking-wider text-dim uppercase">
-                  <th className="px-3 py-3 text-left font-normal">Observação</th>
-                  <th className="px-3 py-3 text-right font-normal">Avisar a mesa</th>
-                  <th className="px-3 py-3 text-right font-normal">Buscar pedido</th>
-                  <th className="px-3 py-3 text-right font-normal">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <LinhaMissao nome="Missão 1 · 3 produtos" aviso={51} busca={4 * 60 + 43} />
-                <LinhaMissao nome="Missão 2 · 5 produtos" aviso={20} busca={7 * 60 + 40} />
-                <LinhaMissao nome="Missão 3 · 1 produto" aviso={30} busca={60 + 19} />
-              </tbody>
-              <tfoot>
-                <tr className="bg-cyan/10 font-semibold text-cyan">
-                  <td className="px-3 py-3" colSpan={3}>Média usada por missão</td>
-                  <td className="px-3 py-3 text-right">{fmtMMSS(TEMPO_MEDIO_MISSAO_SEG)} · {fmtNum(tempoMissaoMin, 2)} min</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-dim">
-            Fórmula: [(51 + 4:43) + (20 + 7:40) + (30 + 1:19)] ÷ 3 = {fmtMMSS(TEMPO_MEDIO_MISSAO_SEG)} por missão.
-          </p>
-        </section>
-
-        <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-line">
-          <CabecalhoSecao numero="07" titulo="Indicadores de custos" subtitulo="Conversão gerencial da capacidade operacional" />
+          <CabecalhoSecao numero="05" titulo="Indicadores de custos" subtitulo="Conversão gerencial da capacidade operacional" />
           <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
             <Formula titulo="Custo diário por pessoa" expressao="Custo diário = custo mensal completo ÷ dias trabalhados no mês" />
             <Formula titulo="Economia potencial" expressao="Economia = pessoas excedentes realocáveis × custo diário" />
-            <Formula titulo="Custo por minuto" expressao="Custo por minuto = custo diário ÷ tempo efetivo do turno" />
-            <Formula titulo="Valor da capacidade protegida" expressao="Valor protegido = minutos de missão absorvidos × custo por minuto" />
           </div>
           <div className="mt-4 flex gap-3 rounded-lg bg-clear/10 p-4 text-sm leading-relaxed text-clear ring-1 ring-clear/25">
             <Info className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-            <p>Esses valores representam oportunidade de realocação e capacidade protegida. Não são redução automática de folha e não devem ser somados entre si.</p>
+            <p>Esses valores representam uma oportunidade de realocação. Não são redução automática de folha.</p>
           </div>
         </section>
 
         <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-line">
-          <CabecalhoSecao numero="08" titulo="Exemplo de conferência" subtitulo="Exemplo didático com números arredondados" />
+          <CabecalhoSecao numero="06" titulo="Exemplo de conferência" subtitulo="Exemplo didático com números arredondados" />
           <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto_1.3fr] lg:items-center">
             <div className="rounded-lg bg-abyss p-4 ring-1 ring-line">
               <div className="font-mono text-[10px] tracking-wider text-dim uppercase">Entradas</div>
@@ -178,16 +130,13 @@ function Referencias() {
         </section>
 
         <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-line">
-          <CabecalhoSecao numero="09" titulo="Origem das regras e referências" subtitulo="O que veio da operação e o que possui base conceitual externa" />
+          <CabecalhoSecao numero="07" titulo="Origem das regras e referências" subtitulo="O que veio da operação e o que possui base conceitual externa" />
           <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
             <div>
               <h3 className="flex items-center gap-2 text-sm font-semibold"><CheckCircle2 className="size-4 text-clear" aria-hidden="true" /> Regras específicas da operação</h3>
               <ul className="mt-3 space-y-3 text-sm leading-relaxed text-dim">
                 <li>Tempos das atividades: planilha Excel e banco de tempos cadastrado.</li>
                 <li>Pausas de {PAUSAS_PADRAO} min e almoço de {ALMOCO_PADRAO} min: lógica da planilha original.</li>
-                <li>Frequência de {MISSOES_PADRAO} missões a cada {SEPARACOES_POR_MISSOES_PADRAO} separações: regra informada pela operação.</li>
-                <li>Tempo médio de missão: três ocorrências observadas e informadas pela operação.</li>
-                <li>Equipe exclusiva para missões: decisão gerencial definida para este aplicativo.</li>
               </ul>
             </div>
             <div>
@@ -203,7 +152,7 @@ function Referencias() {
         </section>
 
         <p className="text-center text-xs leading-relaxed text-dim">
-          As fontes externas sustentam os conceitos de estudo do trabalho, takt e balanceamento. As constantes de pausas, missões e custos são premissas internas e devem ser revisadas quando a operação mudar.
+          As fontes externas sustentam os conceitos de estudo do trabalho, takt e balanceamento. As constantes de pausas, almoço e custos são premissas internas e devem ser revisadas quando a operação mudar.
         </p>
       </div>
     </Shell>
@@ -224,10 +173,6 @@ function Bloco({ numero, titulo, subtitulo, children }: { numero: string; titulo
 
 function Formula({ titulo, expressao }: { titulo: string; expressao: string }) {
   return <div className="rounded-lg bg-abyss p-3 ring-1 ring-line"><div className="font-mono text-[10px] tracking-wider text-cyan uppercase">{titulo}</div><div className="mt-2 overflow-x-auto whitespace-nowrap font-mono text-xs font-semibold text-ink sm:text-sm">{expressao}</div></div>;
-}
-
-function LinhaMissao({ nome, aviso, busca }: { nome: string; aviso: number; busca: number }) {
-  return <tr className="border-b border-line"><td className="px-3 py-3 font-medium">{nome}</td><td className="px-3 py-3 text-right">{fmtMMSS(aviso)}</td><td className="px-3 py-3 text-right">{fmtMMSS(busca)}</td><td className="px-3 py-3 text-right font-semibold">{fmtMMSS(aviso + busca)}</td></tr>;
 }
 
 function ResultadoExemplo({ label, valor, conta }: { label: string; valor: string; conta: string }) {

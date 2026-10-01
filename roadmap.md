@@ -7,7 +7,8 @@
 - [x] Adicionar seleção de data e impressão do relatório diário.
 - [x] Validar o relatório diário na tela e na impressão.
 - [x] Criar a página gerencial de custos e economia operacional.
-- [x] Mostrar o ganho de capacidade com uma pessoa dedicada às missões.
+- [x] Mostrar a economia potencial com pessoas excedentes realocáveis.
 - [x] Validar a página de custos no computador e no celular.
 - [x] Criar a página de referência com fórmulas, premissas, exemplos e fontes.
 - [x] Validar a página de referências no computador e no celular.
+- [x] Remover missões dos cálculos, telas, histórico, indicadores, custos e referências.

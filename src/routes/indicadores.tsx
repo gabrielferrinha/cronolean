@@ -17,6 +17,7 @@ import {
   YAxis,
 } from "recharts";
 import { Shell } from "@/components/Shell";
+import { AuthGate } from "@/components/AuthGate";
 import { Button } from "@/components/ui/button";
 import { TURNOS, listarAnalises, type AnaliseSalva } from "@/lib/analisesCloud";
 import { fmtNum } from "@/lib/crono";
@@ -189,7 +190,7 @@ function Indicadores() {
   }
 
   return (
-    <Shell>
+    <AuthGate><Shell>
       <div className="indicadores-page space-y-5">
         <section className="animate-rise border-b border-line pb-5">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -347,7 +348,7 @@ function Indicadores() {
           </>
         )}
       </div>
-    </Shell>
+    </Shell></AuthGate>
   );
 }
 

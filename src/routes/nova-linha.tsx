@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/Shell";
+import { AuthGate } from "@/components/AuthGate";
 import {
   ALMOCO_PADRAO,
   PAUSAS_PADRAO,
@@ -110,7 +111,7 @@ function NovaLinha() {
   }, 0);
 
   return (
-    <Shell>
+    <AuthGate><Shell>
       <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-6">
           <div className="font-mono text-[11px] tracking-[0.24em] text-cyan uppercase">
@@ -219,6 +220,6 @@ function NovaLinha() {
           </div>
         </div>
       </section>
-    </Shell>
+    </Shell></AuthGate>
   );
 }

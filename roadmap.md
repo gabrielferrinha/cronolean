@@ -12,3 +12,6 @@
 - [x] Criar a página de referência com fórmulas, premissas, exemplos e fontes.
 - [x] Validar a página de referências no computador e no celular.
 - [x] Remover missões dos cálculos, telas, histórico, indicadores, custos e referências.
+- [x] Criar acesso com usuário e senha para o Operador 1.
+- [x] Guardar o perfil do operador e proteger as páginas internas.
+- [ ] Validar entrada, saída e apresentação no computador e celular.

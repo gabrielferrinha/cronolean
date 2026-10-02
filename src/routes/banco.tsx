@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { Shell } from "@/components/Shell";
+import { AuthGate } from "@/components/AuthGate";
 import {
   fmtMMSS,
   getAtividades,
@@ -130,7 +131,7 @@ function Banco() {
   const totalSeg = daLinha.reduce((s, a) => s + mediaSegundos(a.ciclos), 0);
 
   return (
-    <Shell>
+    <AuthGate><Shell>
       <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -239,7 +240,7 @@ function Banco() {
           </span>
         </div>
       </section>
-    </Shell>
+    </Shell></AuthGate>
   );
 }
 

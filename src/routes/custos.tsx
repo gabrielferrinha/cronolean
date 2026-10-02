@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { Shell } from "@/components/Shell";
+import { AuthGate } from "@/components/AuthGate";
 import { Button } from "@/components/ui/button";
 import { TURNOS, listarAnalises, type AnaliseSalva } from "@/lib/analisesCloud";
 import { fmtNum } from "@/lib/crono";
@@ -154,7 +155,7 @@ function Custos() {
   );
 
   return (
-    <Shell>
+    <AuthGate><Shell>
       <div className="space-y-5">
         <section className="animate-rise border-b border-line pb-5">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -256,7 +257,7 @@ function Custos() {
           </>
         )}
       </div>
-    </Shell>
+    </Shell></AuthGate>
   );
 }
 

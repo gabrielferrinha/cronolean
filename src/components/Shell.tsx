@@ -1,12 +1,22 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { LogOut, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 import logoMegaG from "@/assets/megag-logo.png";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 const linkBase =
   "rounded-lg px-2 py-2 text-center font-mono text-xs text-dim transition-colors hover:text-ink sm:rounded-full sm:px-4 sm:py-1.5";
 const linkActive = "bg-cyan/15 text-cyan ring-1 ring-cyan/40";
 
 export function Shell({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    await navigate({ to: "/login", replace: true });
+  }
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-abyss font-sans text-ink">
       <div aria-hidden="true" className="no-print pointer-events-none absolute inset-0 overflow-hidden">
@@ -53,6 +63,10 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/referencias" className={linkBase} activeProps={{ className: linkActive }}>
               Referências
             </Link>
+            <div className="col-span-2 flex items-center justify-center gap-2 border-t border-line pt-1 sm:col-auto sm:border-t-0 sm:border-l sm:pt-0 sm:pl-2">
+              <span className="flex items-center gap-1.5 font-mono text-[10px] text-dim"><UserRound className="size-3.5" /> Operador 1</span>
+              <Button type="button" variant="ghost" size="icon" onClick={signOut} aria-label="Sair" title="Sair" className="size-8 text-dim hover:text-ink"><LogOut /></Button>
+            </div>
           </nav>
         </header>
         <main className="pb-16">{children}</main>

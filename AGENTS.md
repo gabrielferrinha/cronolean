@@ -12,3 +12,4 @@
 ## Decisões do projeto
 
 - A memória de cálculo fica na rota pública `/referencias`, separando regras operacionais internas de fontes conceituais externas para garantir rastreabilidade.
+- As páginas operacionais exigem uma sessão válida; `/login` e `/referencias` permanecem públicas para preservar acesso e rastreabilidade.

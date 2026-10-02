@@ -14,6 +14,7 @@ import { Route as BancoRouteImport } from './routes/banco'
 import { Route as CustosRouteImport } from './routes/custos'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as IndicadoresRouteImport } from './routes/indicadores'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as NovaLinhaRouteImport } from './routes/nova-linha'
 import { Route as ReferenciasRouteImport } from './routes/referencias'
 
@@ -42,6 +43,11 @@ const IndicadoresRoute = IndicadoresRouteImport.update({
   path: '/indicadores',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NovaLinhaRoute = NovaLinhaRouteImport.update({
   id: '/nova-linha',
   path: '/nova-linha',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
+  '/login': typeof LoginRoute
   '/nova-linha': typeof NovaLinhaRoute
   '/referencias': typeof ReferenciasRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
+  '/login': typeof LoginRoute
   '/nova-linha': typeof NovaLinhaRoute
   '/referencias': typeof ReferenciasRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/custos': typeof CustosRoute
   '/historico': typeof HistoricoRoute
   '/indicadores': typeof IndicadoresRoute
+  '/login': typeof LoginRoute
   '/nova-linha': typeof NovaLinhaRoute
   '/referencias': typeof ReferenciasRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/custos'
     | '/historico'
     | '/indicadores'
+    | '/login'
     | '/nova-linha'
     | '/referencias'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/custos'
     | '/historico'
     | '/indicadores'
+    | '/login'
     | '/nova-linha'
     | '/referencias'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/custos'
     | '/historico'
     | '/indicadores'
+    | '/login'
     | '/nova-linha'
     | '/referencias'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   CustosRoute: typeof CustosRoute
   HistoricoRoute: typeof HistoricoRoute
   IndicadoresRoute: typeof IndicadoresRoute
+  LoginRoute: typeof LoginRoute
   NovaLinhaRoute: typeof NovaLinhaRoute
   ReferenciasRoute: typeof ReferenciasRoute
 }
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndicadoresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nova-linha': {
       id: '/nova-linha'
       path: '/nova-linha'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustosRoute: CustosRoute,
   HistoricoRoute: HistoricoRoute,
   IndicadoresRoute: IndicadoresRoute,
+  LoginRoute: LoginRoute,
   NovaLinhaRoute: NovaLinhaRoute,
   ReferenciasRoute: ReferenciasRoute,
 }

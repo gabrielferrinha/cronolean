@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/Shell";
-import { AuthGate } from "@/components/AuthGate";
 import {
   ALMOCO_PADRAO,
   PAUSAS_PADRAO,
@@ -123,7 +122,7 @@ function NovaAnalise() {
   const falta = resultado ? resultado.diferenca < 0 : false;
 
   return (
-    <AuthGate><Shell>
+    <Shell>
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
         <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md lg:col-span-7">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2">
@@ -300,7 +299,7 @@ function NovaAnalise() {
           </section>
         </div>
       </div>
-    </Shell></AuthGate>
+    </Shell>
   );
 }
 

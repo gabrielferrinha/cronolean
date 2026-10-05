@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/Shell";
-import { AuthGate } from "@/components/AuthGate";
 import { fmtMMSS, fmtNum } from "@/lib/crono";
 import {
   TURNOS,
@@ -80,7 +79,7 @@ function Historico() {
   }, [filtrados]);
 
   return (
-    <AuthGate><Shell>
+    <Shell>
       <section className="animate-rise rounded-2xl bg-white shadow-sm p-6 ring-1 ring-line backdrop-blur-md">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -221,6 +220,6 @@ function Historico() {
           </div>
         )}
       </section>
-    </Shell></AuthGate>
+    </Shell>
   );
 }

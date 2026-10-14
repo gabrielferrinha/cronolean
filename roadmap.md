@@ -12,3 +12,4 @@
 - [x] Criar a página de referência com fórmulas, premissas, exemplos e fontes.
 - [x] Validar a página de referências no computador e no celular.
 - [x] Remover missões dos cálculos, telas, histórico, indicadores, custos e referências.
+- [x] Incorporar devoluções por atraso à página de custos, com recortes por mês, turno e linha.

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Banknote, RefreshCw, TrendingDown, Users } from "lucide-react";
+import { AlertTriangle, Banknote, Clock3, RefreshCw, TrendingDown, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
@@ -14,6 +14,15 @@ import { Shell } from "@/components/Shell";
 import { Button } from "@/components/ui/button";
 import { TURNOS, listarAnalises, type AnaliseSalva } from "@/lib/analisesCloud";
 import { fmtNum } from "@/lib/crono";
+import {
+  DEVOLUCOES_FONTE,
+  DEVOLUCOES_PERIODO,
+  DEVOLUCOES_POR_LINHA,
+  DEVOLUCOES_POR_MES,
+  DEVOLUCOES_POR_TURNO,
+  DEVOLUCOES_RESUMO,
+  DEVOLUCOES_SEM_LINHA,
+} from "@/lib/devolucoes";
 
 export const Route = createFileRoute("/custos")({
   head: () => ({
@@ -37,6 +46,7 @@ export const Route = createFileRoute("/custos")({
 
 const chartColors = {
   primary: "var(--color-cyan)",
+  warning: "var(--color-signal)",
   muted: "var(--color-dim)",
   grid: "var(--color-line)",
 };
@@ -177,6 +187,99 @@ function Custos() {
           <FiltroData label="Data inicial" value={inicio} onChange={setInicio} />
           <FiltroData label="Data final" value={fim} onChange={setFim} />
           <FiltroSelect label="Turno" value={turno} onChange={setTurno} options={["Todos", ...TURNOS]} />
+        </section>
+
+        <section className="space-y-4 border-y border-line py-5">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="font-mono text-[11px] tracking-[0.24em] text-signal uppercase">Custo do atraso</div>
+              <h2 className="mt-2 font-display text-2xl leading-none tracking-tight">Devoluções por atraso</h2>
+              <p className="mt-2 max-w-3xl text-sm text-dim">
+                A base de devoluções mostra onde o dimensionamento correto pode ser testado primeiro. Os valores abaixo são perdas observadas, não economia já comprovada pelo aplicativo.
+              </p>
+            </div>
+            <span className="font-mono text-xs text-dim">{DEVOLUCOES_PERIODO}</span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <Indicador icon={AlertTriangle} label="Valor devolvido" value={moeda(DEVOLUCOES_RESUMO.valorTotal)} detail={`${DEVOLUCOES_RESUMO.notas} notas com atraso`} />
+            <Indicador icon={Clock3} label="Turno noite" value={percentual(DEVOLUCOES_POR_TURNO[1].valor, DEVOLUCOES_RESUMO.valorTotal)} detail={`${moeda(DEVOLUCOES_POR_TURNO[1].valor)} do valor devolvido`} />
+            <Indicador icon={TrendingDown} label="Maior linha" value={moeda(DEVOLUCOES_POR_LINHA[0].valor)} detail={`${DEVOLUCOES_POR_LINHA[0].linha} · ${DEVOLUCOES_POR_LINHA[0].notas} notas`} />
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            <Painel titulo="Devoluções por mês" subtitulo="Valor devolvido por atrasos logísticos e de transporte">
+              <div className="h-64 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={DEVOLUCOES_POR_MES} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
+                    <CartesianGrid stroke={chartColors.grid} strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="periodo" tick={{ fill: chartColors.muted, fontSize: 10 }} tickLine={false} axisLine={false} />
+                    <YAxis tick={{ fill: chartColors.muted, fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={valorAbreviado} />
+                    <Tooltip contentStyle={tooltipStyle} formatter={(valor) => moeda(Number(valor))} />
+                    <Bar dataKey="valor" name="Valor devolvido" fill={chartColors.warning} radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Painel>
+
+            <Painel titulo="Recorte por turno" subtitulo="Turnos cadastrados na planilha de devoluções">
+              <div className="space-y-4">
+                {DEVOLUCOES_POR_TURNO.map((item) => (
+                  <div key={item.turno} className="border-b border-line pb-4 last:border-0 last:pb-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-medium">{item.turno}</span>
+                      <span className="font-mono text-sm font-semibold tabular-nums">{moeda(item.valor)}</span>
+                    </div>
+                    <div className="mt-1 flex items-center justify-between gap-3 text-xs text-dim">
+                      <span>{item.notas} notas · {item.linhasProduto} itens</span>
+                      <span>{percentual(item.valor, DEVOLUCOES_RESUMO.valorTotal)} do valor</span>
+                    </div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-abyss/40">
+                      <div className="h-full rounded-full bg-signal" style={{ width: larguraPercentual(item.valor, DEVOLUCOES_RESUMO.valorTotal) }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-5 rounded-lg bg-signal/10 p-3 text-xs leading-relaxed text-signal ring-1 ring-signal/25">
+                A planilha usa Dia e Noite. Eles não foram convertidos automaticamente para 1º, 2º e 3º turnos do CronoLeanMaua.
+              </p>
+            </Painel>
+          </div>
+
+          <Painel titulo="Linhas com maior valor devolvido" subtitulo="Prioridade sugerida para comparar equipe real, equipe recomendada e saída da carga">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[680px] border-collapse text-sm tabular-nums">
+                <thead>
+                  <tr className="border-b border-line font-mono text-[10px] tracking-wider text-dim uppercase">
+                    <th className="px-2 py-3 text-left font-normal">Linha de separação</th>
+                    <th className="px-2 py-3 text-right font-normal">Notas</th>
+                    <th className="px-2 py-3 text-right font-normal">Itens</th>
+                    <th className="px-2 py-3 text-right font-normal">Valor devolvido</th>
+                    <th className="px-2 py-3 text-right font-normal">Participação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DEVOLUCOES_POR_LINHA.map((item, indice) => (
+                    <tr key={item.linha} className="border-b border-line last:border-0">
+                      <td className="px-2 py-3 font-medium"><span className="mr-3 font-mono text-xs text-dim">{String(indice + 1).padStart(2, "0")}</span>{item.linha}</td>
+                      <td className="px-2 py-3 text-right">{item.notas}</td>
+                      <td className="px-2 py-3 text-right">{item.linhasProduto}</td>
+                      <td className="px-2 py-3 text-right font-semibold">{moeda(item.valor)}</td>
+                      <td className="px-2 py-3 text-right text-dim">{percentual(item.valor, DEVOLUCOES_RESUMO.valorTotal)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 flex flex-wrap justify-between gap-2 border-t border-line pt-3 text-xs text-dim">
+              <span>Sem linha identificada: {moeda(DEVOLUCOES_SEM_LINHA)}</span>
+              <span>{DEVOLUCOES_FONTE}</span>
+            </div>
+          </Painel>
+
+          <div className="rounded-lg bg-cyan/10 p-4 text-sm leading-relaxed text-cyan ring-1 ring-cyan/25">
+            <strong>Como comprovar o ganho:</strong> compare, por linha e turno, o número real de pessoas com o recomendado pelo app e registre se a carga saiu no horário. Só depois dessa comparação a redução de devoluções poderá ser atribuída ao dimensionamento.
+          </div>
         </section>
 
         {!premissasValidas && (
@@ -341,6 +444,18 @@ function formatarDia(data: string) {
 
 function valorAbreviado(valor: number) {
   return Intl.NumberFormat("pt-BR", { notation: "compact", maximumFractionDigits: 1 }).format(valor);
+}
+
+function percentual(valor: number, total: number) {
+  return `${percentualNumero(valor, total)}%`;
+}
+
+function percentualNumero(valor: number, total: number) {
+  return total > 0 ? ((valor / total) * 100).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "0,0";
+}
+
+function larguraPercentual(valor: number, total: number) {
+  return total > 0 ? `${((valor / total) * 100).toFixed(1)}%` : "0%";
 }
 
 const tooltipStyle = {

@@ -23,7 +23,7 @@ export const DEVOLUCOES_POR_LINHA = [
   { linha: "Grandeza", valor: 6580.33, linhasProduto: 21, notas: 18 },
   { linha: "Congelados — coletor", valor: 5426.76, linhasProduto: 8, notas: 8 },
   { linha: "Miudeza frágil resfriado", valor: 4930.21, linhasProduto: 21, notas: 20 },
-  { linha: "Miudeza", valor: 4347.89, linhasProduto: 26, notas: 22 },
+  { linha: "Resfriado padrão", valor: 4347.89, linhasProduto: 26, notas: 22 },
   { linha: "Fracionado — mapa", valor: 3040.6, linhasProduto: 34, notas: 29 },
 ] as const;
 

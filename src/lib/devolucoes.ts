@@ -18,7 +18,7 @@ export const DEVOLUCOES_POR_TURNO = [
 ] as const;
 
 export const DEVOLUCOES_POR_LINHA = [
-  { linha: "Resfriado padrão", valor: 7975.77, linhasProduto: 10, notas: 10 },
+  { linha: "Miudezas Secas", valor: 7975.77, linhasProduto: 10, notas: 10 },
   { linha: "Peso variável", valor: 7525.87, linhasProduto: 17, notas: 15 },
   { linha: "Grandeza", valor: 6580.33, linhasProduto: 21, notas: 18 },
   { linha: "Congelados — coletor", valor: 5426.76, linhasProduto: 8, notas: 8 },

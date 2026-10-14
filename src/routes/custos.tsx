@@ -235,7 +235,7 @@ function Custos() {
                       <span>{percentual(item.valor, DEVOLUCOES_RESUMO.valorTotal)} do valor</span>
                     </div>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-abyss/40">
-                      <div className="h-full rounded-full bg-signal" style={{ width: percentualNumero(item.valor, DEVOLUCOES_RESUMO.valorTotal) }} />
+                      <div className="h-full rounded-full bg-signal" style={{ width: larguraPercentual(item.valor, DEVOLUCOES_RESUMO.valorTotal) }} />
                     </div>
                   </div>
                 ))}
@@ -452,6 +452,10 @@ function percentual(valor: number, total: number) {
 
 function percentualNumero(valor: number, total: number) {
   return total > 0 ? ((valor / total) * 100).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "0,0";
+}
+
+function larguraPercentual(valor: number, total: number) {
+  return total > 0 ? `${((valor / total) * 100).toFixed(1)}%` : "0%";
 }
 
 const tooltipStyle = {

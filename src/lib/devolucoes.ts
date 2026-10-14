@@ -15,7 +15,7 @@ export const DEVOLUCOES_POR_MES = [
 export const DEVOLUCOES_POR_TURNO = [
   { turno: "Dia", valor: 28829.39, linhasProduto: 113, notas: 73 },
   { turno: "Noite", valor: 22609.54, linhasProduto: 61, notas: 38 },
-];
+] as const;
 
 export const DEVOLUCOES_POR_LINHA = [
   { linha: "Resfriado padrão", valor: 7975.77, linhasProduto: 10, notas: 10 },
@@ -25,7 +25,7 @@ export const DEVOLUCOES_POR_LINHA = [
   { linha: "Miudeza frágil resfriado", valor: 4930.21, linhasProduto: 21, notas: 20 },
   { linha: "Miudeza", valor: 4347.89, linhasProduto: 26, notas: 22 },
   { linha: "Fracionado — mapa", valor: 3040.6, linhasProduto: 34, notas: 29 },
-];
+] as const;
 
 export const DEVOLUCOES_SEM_LINHA = 6789.55;
 

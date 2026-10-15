@@ -14,4 +14,4 @@
 - [x] Remover missões dos cálculos, telas, histórico, indicadores, custos e referências.
 - [x] Incorporar devoluções por atraso à página de custos, com recortes por mês, turno e linha.
 - [x] Deixar o custo de devoluções como único custo da página, com bloco explicando o que ele significa.
-- [ ] Validar a página de custos atualizada no computador e no celular.
+- [x] Validar a página de custos atualizada no computador e no celular.

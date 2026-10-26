@@ -52,6 +52,7 @@ function NovaAnalise() {
   const [resultado, setResultado] = useState<Analise | null>(null);
   const [erro, setErro] = useState("");
   const [statusSalvo, setStatusSalvo] = useState("");
+  const [horaConsulta, setHoraConsulta] = useState("");
 
 
   useEffect(() => {
@@ -109,11 +110,16 @@ function NovaAnalise() {
       diferenca: calc.diferenca,
       resultado: calc.resultado,
     };
+    const hora = new Date().toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    setHoraConsulta(hora);
     setResultado(analise);
     setHistorico([analise, ...getHistorico()].slice(0, 200));
-    setStatusSalvo("Salvando no histórico...");
+    setStatusSalvo(`Salvando no histórico... · ${turno} · ${hora}`);
     salvarAnaliseNaNuvem(analise, turno)
-      .then(() => setStatusSalvo(`Salvo no histórico · ${turno}`))
+      .then(() => setStatusSalvo(`Salvo no histórico · ${turno} · ${hora}`))
       .catch(() => setStatusSalvo("Não foi possível salvar no histórico online."));
   }
 
@@ -215,6 +221,9 @@ function NovaAnalise() {
                   className={`font-mono text-[10px] tracking-[0.18em] uppercase ${falta ? "text-signal" : "text-clear"}`}
                 >
                   ● {resultado.resultado}
+                </span>
+                <span className="font-mono text-[10px] tracking-[0.18em] text-dim uppercase">
+                  {turno} · {horaConsulta}h
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-4 p-5">
